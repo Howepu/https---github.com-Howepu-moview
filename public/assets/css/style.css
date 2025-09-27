@@ -1,0 +1,259 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Минимальная высота страницы — 100% от viewport */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex; /* Используем flex для расположения nav и main-content */
+    flex: 1 0 auto; /* Контейнер растягивается, но не сжимается меньше контента */
+}
+
+/* Шапка */
+.header {
+    background-color: #000; /* Черный фон шапки */
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.logo-container {
+    background-color: #ff4500; /* Оранжевый фон для логотипа */
+    padding: 10px 30px; /* Увеличенные отступы для соответствия изображению */
+    border-radius: 15px; /* Закругленные углы, как на изображении */
+}
+
+.logo {
+    color: #fff; /* Белый цвет текста логотипа */
+    font-size: 36px; /* Увеличенный шрифт для соответствия изображению */
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0; /* Убираем лишние отступы */
+}
+
+/* Бургер-меню */
+.menu-toggle {
+    display: none; /* По умолчанию скрыто на десктопах */
+    flex-direction: column;
+    cursor: pointer;
+    width: 30px;
+    height: 20px;
+}
+
+.menu-toggle span {
+    width: 100%;
+    height: 3px;
+    background-color: #fff; /* Белый цвет полосок бургера */
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Навигация */
+.nav {
+    width: 200px; /* Фиксированная ширина меню на десктопах */
+    background-color: #fff;
+    padding: 20px;
+    flex-shrink: 0; /* Меню не сжимается */
+    transition: transform 0.3s ease; /* Плавное появление на мобильных */
+}
+
+.nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.nav ul li {
+    margin: 15px 0;
+}
+
+.nav ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav ul li a:hover {
+    color: #ff4500;
+}
+
+/* Основное содержание */
+.main-content {
+    flex: 1; /* Основная часть растягивается, занимая оставшееся пространство */
+    padding: 20px 0;
+}
+
+.banner {
+    background-color: #000;
+    color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.banner-text {
+    max-width: 50%;
+}
+
+.banner-text h2 {
+    font-size: 24px;
+    margin: 0 0 10px;
+}
+
+.banner-text p {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Сетка фильмов */
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.movie-card {
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: white;
+}
+
+.movie-card img {
+    max-width: 100%;
+    height: auto;
+}
+
+.movie-card p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+}
+
+/* Футер */
+.footer {
+    background-color: #000;
+    color: white;
+    text-align: center;
+    padding: 40px 0; /* Увеличенный padding для большего футера */
+    flex-shrink: 0; /* Футер не сжимается */
+}
+
+.footer-logo {
+    margin-bottom: 20px; /* Отступ между логотипом и социальными иконками */
+}
+
+.footer-logo-container {
+    background-color: #ff4500; /* Оранжевый фон для логотипа */
+    padding: 10px 30px; /* Те же отступы, что в шапке */
+    border-radius: 15px; /* Те же закругленные углы, что в шапке */
+    display: inline-block; /* Чтобы оранжевый прямоугольник обхватывал текст */
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Расстояние между иконками */
+}
+
+.social-icon {
+    font-size: 24px; /* Размер текста для иконок (можно заменить на реальные изображения) */
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Цвета для социальных сетей (временные, замените на реальные иконки) */
+#telegram { color: #0088cc; }
+#vk { color: #4a76a8; }
+#youtube { color: #ff0000; }
+
+.social-icon:hover {
+    opacity: 0.8;
+}
+
+.footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .nav {
+        position: fixed;
+        top: 60px;
+        left: -200px; /* Скрыто за пределами экрана */
+        height: calc(100vh - 60px);
+        z-index: 1000;
+        transition: left 0.3s ease;
+    }
+
+    .nav.active {
+        left: 0; /* Появляется при активации */
+    }
+
+    .menu-toggle {
+        display: flex; /* Показываем бургер-меню на мобильных */
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .movie-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .movie-grid {
+        grid-template-columns: 1fr;
+    }
+    .header, .footer {
+        padding: 10px;
+    }
+    .banner-text h2 {
+        font-size: 20px;
+    }
+    .banner-text p {
+        font-size: 14px;
+    }
+    .social-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .logo {
+        font-size: 28px; /* Уменьшенный шрифт для логотипа на мобильных */
+    }
+    .logo-container, .footer-logo-container {
+        padding: 8px 20px; /* Уменьшенные отступы для мобильных */
+    }
+}

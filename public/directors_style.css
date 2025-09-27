@@ -1,0 +1,258 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex: 1 0 auto;
+}
+
+/* Шапка */
+.header {
+    background-color: #000;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.logo-container {
+    background-color: #ff4500;
+    padding: 10px 30px;
+    border-radius: 15px;
+}
+
+.logo {
+    color: #fff;
+    font-size: 36px;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0;
+}
+
+/* Бургер-меню */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    width: 30px;
+    height: 20px;
+}
+
+.menu-toggle span {
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Навигация */
+.nav {
+    width: 200px;
+    background-color: #fff;
+    padding: 20px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.nav ul li {
+    margin: 15px 0;
+}
+
+.nav ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav ul li a:hover {
+    color: #ff4500;
+}
+
+/* Основное содержание */
+.main-content {
+    flex: 1;
+    padding: 20px 0;
+}
+
+/* Переключатель категорий */
+.category-toggle {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.category-btn {
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+
+.category-btn:nth-child(1) {
+    color: #000;
+}
+
+.category-btn:nth-child(2) {
+    color: #000;
+}
+
+.category-btn.active {
+    border-bottom: 2px solid #ff4500;
+}
+
+.category-btn:hover {
+    color: #ff4500;
+}
+
+/* Баннеры жанров */
+.genre-banners {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.genre-card {
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(20% - 20px);
+    max-width: 200px;
+}
+
+.genre-card img {
+    width: 111px;
+    height: 111px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.genre-card p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+}
+
+/* Футер */
+.footer {
+    background-color: #000;
+    color: white;
+    text-align: center;
+    padding: 40px 0;
+    flex-shrink: 0;
+}
+
+.footer-logo {
+    margin-bottom: 20px;
+}
+
+.footer-logo-container {
+    background-color: #ff4500;
+    padding: 10px 30px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.social-icon {
+    font-size: 24px;
+    color: #fff;
+    text-decoration: none;
+}
+
+#telegram { color: #0088cc; }
+#vk { color: #4a76a8; }
+#youtube { color: #ff0000; }
+
+.social-icon:hover {
+    opacity: 0.8;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .nav {
+        position: fixed;
+        top: 60px;
+        left: -200px;
+        height: calc(100vh - 60px);
+        z-index: 1000;
+        transition: left 0.3s ease;
+    }
+
+    .nav.active {
+        left: 0;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .genre-banners {
+        flex-direction: column;
+    }
+
+    .genre-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .header, .footer {
+        padding: 10px;
+    }
+    .category-btn {
+        font-size: 14px;
+    }
+    .genre-card p {
+        font-size: 12px;
+    }
+    .social-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .logo {
+        font-size: 28px;
+    }
+    .logo-container, .footer-logo-container {
+        padding: 8px 20px;
+    }
+}

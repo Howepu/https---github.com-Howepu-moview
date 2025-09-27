@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./public:/var/www/html/public
+    depends_on:
+      - php
+      - postgres
+
+  php:
+    build: ./php
+    volumes:
+      - ./public:/var/www/html/public
+    environment:
+      DB_HOST: postgres
+      DB_NAME: movie_portal
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+
+  postgres:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: movie_portal
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
