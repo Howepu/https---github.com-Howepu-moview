@@ -19,10 +19,9 @@ $pageTitle = "MoviePortal - Жанры";
 <body>
     <div class="header">
         <div class="logo-container">
-            <a href="index.php" class="logo">MoviePortal</a>
+            <a href="main.php" class="logo">MoviePortal</a>
         </div>
         <div class="menu-toggle">
-            <span></span>
             <span></span>
             <span></span>
         </div>
@@ -30,10 +29,11 @@ $pageTitle = "MoviePortal - Жанры";
     <div class="container">
         <div class="nav">
             <ul>
-                <li><a href="index.php">Главная</a></li>
+                <li><a href="main.php">Главная</a></li>
                 <li><a href="films.php">Фильмы</a></li>
                 <li><a href="genres.php" class="active">Жанры</a></li>
                 <li><a href="directors.php">Режиссёры</a></li>
+                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
         <div class="main-content">
@@ -56,7 +56,7 @@ $pageTitle = "MoviePortal - Жанры";
     <div class="footer">
         <div class="footer-logo">
             <div class="footer-logo-container">
-                <a href="index.php" class="logo">MoviePortal</a>
+                <a href="main.php" class="logo">MoviePortal</a>
             </div>
         </div>
         <div class="social-links">

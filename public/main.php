@@ -3,7 +3,7 @@ require_once 'config.php';
 
 // Получение 4 случайных фильмов
 $query = "
-    SELECT m.title, m.poster_url
+    SELECT m.id, m.title, m.poster_url
     FROM movies m
     ORDER BY RANDOM()
     LIMIT 4
@@ -24,10 +24,9 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <div class="header">
         <div class="logo-container">
-            <a href="#" class="logo">MoviePortal</a>
+            <a href="main.php" class="logo">MoviePortal</a>
         </div>
         <div class="menu-toggle">
-            <span></span>
             <span></span>
             <span></span>
         </div>
@@ -35,16 +34,17 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="container">
         <div class="nav">
             <ul>
-                <li><a href="main.php">Главная</a></li>
+                <li><a href="main.php" class="active">Главная</a></li>
                 <li><a href="films.php">Фильмы</a></li>
+                <li><a href="genres.php">Жанры</a></li>
                 <li><a href="directors.php">Режиссёры</a></li>
+                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
         <div class="main-content">
             <div class="banner">
                 <div class="banner-text">
                     <h2>Онлайн-кинематер</h2>
-                    <p>Уникальный портал для поиска фильмов</p>
                 </div>
                 <div class="banner-image">
                     <img src="https://avatars.mds.yandex.net/i?id=621a460638ec6acddeaae88ce185205b_l-4011414-images-thumbs&n=13" height="200" width="500">
@@ -56,11 +56,13 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php else: ?>
                     <?php foreach ($movies as $movie): ?>
                         <div class="movie-card">
-                            <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
-                                 alt="<?php echo htmlspecialchars($movie['title']); ?>" 
-                                 height="150" width="200"
-                                 onerror="this.src='https://via.placeholder.com/200x300'">
-                            <p><?php echo htmlspecialchars($movie['title']); ?></p>
+                            <a href="film_page.php?movie_id=<?php echo $movie['id']; ?>">
+                                <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
+                                     alt="<?php echo htmlspecialchars($movie['title']); ?>" 
+                                     height="150" width="200"
+                                     onerror="this.src='https://via.placeholder.com/200x300'">
+                                <p><?php echo htmlspecialchars($movie['title']); ?></p>
+                            </a>
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
@@ -70,7 +72,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="footer">
         <div class="footer-logo">
             <div class="footer-logo-container">
-                <a href="#" class="logo">MoviePortal</a>
+                <a href="main.php" class="logo">MoviePortal</a>
             </div>
         </div>
         <div class="social-links">

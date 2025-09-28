@@ -1,27 +1,72 @@
 <?php
 require_once 'config.php';
 
+// Проверяем, передан ли параметр жанра
+$genre_id = isset($_GET['genre_id']) ? (int)$_GET['genre_id'] : null;
+$selected_genre_name = '';
+
+// Если передан genre_id, получаем название жанра
+if ($genre_id) {
+    $genre_stmt = $pdo->prepare("SELECT name FROM genres WHERE id = ?");
+    $genre_stmt->execute([$genre_id]);
+    $genre_result = $genre_stmt->fetch();
+    $selected_genre_name = $genre_result ? $genre_result['name'] : '';
+}
+
 // Получаем список фильмов с информацией о режиссерах и жанрах
-$stmt = $pdo->query("
-    SELECT 
-        m.id,
-        m.title,
-        m.year,
-        m.duration,
-        m.country,
-        m.poster_url,
-        d.name AS director,
-        STRING_AGG(g.name, ', ') AS genres
-    FROM movies m
-    JOIN directors d ON m.director_id = d.id
-    JOIN movie_genres mg ON m.id = mg.movie_id
-    JOIN genres g ON mg.genre_id = g.id
-    GROUP BY m.id, d.name
-    ORDER BY m.year DESC
-");
+if ($genre_id) {
+    // Фильтруем по конкретному жанру
+    $stmt = $pdo->prepare("
+        SELECT 
+            m.id,
+            m.title,
+            m.year,
+            m.duration,
+            m.country,
+            m.poster_url,
+            d.name AS director,
+            STRING_AGG(g.name, ', ') AS genres
+        FROM movies m
+        JOIN directors d ON m.director_id = d.id
+        JOIN movie_genres mg ON m.id = mg.movie_id
+        JOIN genres g ON mg.genre_id = g.id
+        WHERE m.id IN (
+            SELECT DISTINCT mg2.movie_id 
+            FROM movie_genres mg2 
+            WHERE mg2.genre_id = ?
+        )
+        GROUP BY m.id, d.name
+        ORDER BY m.year DESC
+    ");
+    $stmt->execute([$genre_id]);
+} else {
+    // Показываем все фильмы
+    $stmt = $pdo->query("
+        SELECT 
+            m.id,
+            m.title,
+            m.year,
+            m.duration,
+            m.country,
+            m.poster_url,
+            d.name AS director,
+            STRING_AGG(g.name, ', ') AS genres
+        FROM movies m
+        JOIN directors d ON m.director_id = d.id
+        JOIN movie_genres mg ON m.id = mg.movie_id
+        JOIN genres g ON mg.genre_id = g.id
+        GROUP BY m.id, d.name
+        ORDER BY m.year DESC
+    ");
+}
 $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$pageTitle = "MoviePortal - Фильмы";
+// Формируем заголовок страницы
+if ($genre_id && $selected_genre_name) {
+    $pageTitle = "MoviePortal - Фильмы жанра: " . $selected_genre_name;
+} else {
+    $pageTitle = "MoviePortal - Все фильмы";
+}
 ?>
 
 <!DOCTYPE html>
@@ -35,10 +80,9 @@ $pageTitle = "MoviePortal - Фильмы";
 <body>
     <div class="header">
         <div class="logo-container">
-            <a href="index.php" class="logo">MoviePortal</a>
+            <a href="main.php" class="logo">MoviePortal</a>
         </div>
         <div class="menu-toggle">
-            <span></span>
             <span></span>
             <span></span>
         </div>
@@ -46,9 +90,11 @@ $pageTitle = "MoviePortal - Фильмы";
     <div class="container">
         <div class="nav">
             <ul>
-                <li><a href="index.php">Главная</a></li>
+                <li><a href="main.php">Главная</a></li>
                 <li><a href="films.php" class="active">Фильмы</a></li>
+                <li><a href="genres.php">Жанры</a></li>
                 <li><a href="directors.php">Режиссёры</a></li>
+                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
         <div class="main-content">
@@ -56,29 +102,44 @@ $pageTitle = "MoviePortal - Фильмы";
                 <a href="films.php" class="category-btn active">ФИЛЬМЫ</a>
                 <a href="genres.php" class="category-btn">ЖАНРЫ</a>
             </div>
+            
+            
             <div class="movie-grid">
-                <?php foreach ($movies as $movie): ?>
-                <div class="movie-card">
-                    <a href="movie.php?id=<?= $movie['id'] ?>">
-                        <img src="<?= htmlspecialchars($movie['poster_url']) ?>" 
-                             alt="<?= htmlspecialchars($movie['title']) ?>" 
-                             width="125" height="125">
-                        <div class="movie-info">
-                            <h3><?= htmlspecialchars($movie['title']) ?></h3>
-                            <p><?= htmlspecialchars($movie['year']) ?> | <?= htmlspecialchars($movie['duration']) ?> мин</p>
-                            <p><?= htmlspecialchars($movie['country']) ?>, <?= htmlspecialchars($movie['genres']) ?></p>
-                            <p>Режиссер: <?= htmlspecialchars($movie['director']) ?></p>
-                        </div>
-                    </a>
-                </div>
-                <?php endforeach; ?>
+                <?php if (empty($movies)): ?>
+                    <div class="no-movies-found">
+                        <div class="no-movies-icon">🎬</div>
+                        <h3>Фильмы не найдены</h3>
+                        <?php if ($genre_id && $selected_genre_name): ?>
+                            <p>В жанре "<?= htmlspecialchars($selected_genre_name) ?>" пока нет фильмов.</p>
+                            <a href="films.php" class="btn-show-all">Посмотреть все фильмы</a>
+                        <?php else: ?>
+                            <p>В базе данных пока нет фильмов.</p>
+                        <?php endif; ?>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($movies as $movie): ?>
+                    <div class="movie-card">
+                        <a href="film_page.php?movie_id=<?= $movie['id'] ?>">
+                            <img src="<?= htmlspecialchars($movie['poster_url']) ?>" 
+                                 alt="<?= htmlspecialchars($movie['title']) ?>" 
+                                 width="125" height="125">
+                            <div class="movie-info">
+                                <h3><?= htmlspecialchars($movie['title']) ?></h3>
+                                <p><?= htmlspecialchars($movie['year']) ?> | <?= htmlspecialchars($movie['duration']) ?> мин</p>
+                                <p><?= htmlspecialchars($movie['country']) ?>, <?= htmlspecialchars($movie['genres']) ?></p>
+                                <p>Режиссер: <?= htmlspecialchars($movie['director']) ?></p>
+                            </div>
+                        </a>
+                    </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
     <div class="footer">
         <div class="footer-logo">
             <div class="footer-logo-container">
-                <a href="index.php" class="logo">MoviePortal</a>
+                <a href="main.php" class="logo">MoviePortal</a>
             </div>
         </div>
         <div class="social-links">

@@ -17,7 +17,7 @@ if (!$director_id) {
 
     // Получение списка фильмов конкретного режиссёра
     $query = "
-        SELECT m.title, m.year, m.duration, m.country, m.poster_url, d.name as director_name
+        SELECT m.id, m.title, m.year, m.duration, m.country, m.poster_url, d.name as director_name
         FROM movies m
         JOIN directors d ON m.director_id = d.id
         WHERE m.director_id = :director_id
@@ -40,39 +40,40 @@ if (!$director_id) {
 <body>
     <div class="header">
         <div class="logo-container">
-            <a href="main.html" class="logo">MoviePortal</a>
+            <a href="main.php" class="logo">MoviePortal</a>
         </div>
         <div class="menu-toggle">
-            <span></span>
-            <span></span>
             <span></span>
         </div>
     </div>
     <div class="container">
         <div class="nav">
             <ul>
-                <li><a href="main.html">Главная</a></li>
+                <li><a href="main.php">Главная</a></li>
                 <li><a href="films.php">Фильмы</a></li>
-                <li><a href="directors.html">Режиссёры</a></li>
+                <li><a href="genres.php">Жанры</a></li>
+                <li><a href="directors.php">Режиссёры</a></li>
+                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
         <div class="main-content">
             <h2>Фильмы режиссёра: <?php echo htmlspecialchars($director_name); ?></h2>
             <?php if (empty($movies)): ?>
-                <p>Фильмы не найдены или режиссёр не указан. Укажите director_id в URL, например: films_by_directors.php?director_id=1</p>
             <?php else: ?>
                 <div class="movie-grid">
                     <?php foreach ($movies as $movie): ?>
                         <div class="movie-card">
-                            <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
-                                 alt="<?php echo htmlspecialchars($movie['title']); ?>" 
-                                 width="125" height="125"
-                                 onerror="this.src='https://via.placeholder.com/125x125'">
-                            <div class="movie-info">
-                                <h3><?php echo htmlspecialchars($movie['title']); ?></h3>
-                                <p><?php echo $movie['year'] . ' | ' . $movie['duration'] . ' мин'; ?></p>
-                                <p><?php echo htmlspecialchars($movie['country']); ?></p>
-                            </div>
+                            <a href="film_page.php?movie_id=<?php echo $movie['id']; ?>">
+                                <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
+                                     alt="<?php echo htmlspecialchars($movie['title']); ?>" 
+                                     width="125" height="125"
+                                     onerror="this.src='https://via.placeholder.com/125x125'">
+                                <div class="movie-info">
+                                    <h3><?php echo htmlspecialchars($movie['title']); ?></h3>
+                                    <p><?php echo $movie['year'] . ' | ' . $movie['duration'] . ' мин'; ?></p>
+                                    <p><?php echo htmlspecialchars($movie['country']); ?></p>
+                                </div>
+                            </a>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -82,7 +83,7 @@ if (!$director_id) {
     <div class="footer">
         <div class="footer-logo">
             <div class="footer-logo-container">
-                <a href="#" class="logo">MoviePortal</a>
+                <a href="main.php" class="logo">MoviePortal</a>
             </div>
         </div>
         <div class="social-links">

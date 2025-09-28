@@ -19,10 +19,9 @@ $pageTitle = "MoviePortal - Режиссеры";
 <body>
     <div class="header">
         <div class="logo-container">
-            <a href="index.php" class="logo">MoviePortal</a>
+            <a href="main.php" class="logo">MoviePortal</a>
         </div>
         <div class="menu-toggle">
-            <span></span>
             <span></span>
             <span></span>
         </div>
@@ -30,16 +29,18 @@ $pageTitle = "MoviePortal - Режиссеры";
     <div class="container">
         <div class="nav">
             <ul>
-                <li><a href="index.php">Главная</a></li>
+                <li><a href="main.php">Главная</a></li>
                 <li><a href="films.php">Фильмы</a></li>
+                <li><a href="genres.php">Жанры</a></li>
                 <li><a href="directors.php" class="active">Режиссёры</a></li>
+                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
         <div class="main-content">
             <h1>Популярные режиссеры</h1>
             <div class="genre-banners">
                 <?php foreach ($directors as $director): ?>
-                <a href="films.php?director_id=<?= $director['id'] ?>" class="genre-card">
+                <a href="films_by_directors.php?director_id=<?= $director['id'] ?>" class="genre-card">
                     <img src="<?= htmlspecialchars($director['photo_url']) ?>" 
                          alt="<?= htmlspecialchars($director['name']) ?>"
                          onerror="this.src='https://via.placeholder.com/111x111?text=<?= urlencode(substr($director['name'], 0, 1)) ?>'">
@@ -52,7 +53,7 @@ $pageTitle = "MoviePortal - Режиссеры";
     <div class="footer">
         <div class="footer-logo">
             <div class="footer-logo-container">
-                <a href="index.php" class="logo">MoviePortal</a>
+                <a href="main.php" class="logo">MoviePortal</a>
             </div>
         </div>
         <div class="social-links">

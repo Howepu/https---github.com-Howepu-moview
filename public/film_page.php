@@ -48,8 +48,6 @@ if (!$movie_id) {
         </div>
         <div class="menu-toggle">
             <span></span>
-            <span></span>
-            <span></span>
         </div>
     </div>
     <div class="container">
@@ -57,13 +55,14 @@ if (!$movie_id) {
             <ul>
                 <li><a href="main.php">Главная</a></li>
                 <li><a href="films.php">Фильмы</a></li>
+                <li><a href="genres.php">Жанры</a></li>
                 <li><a href="directors.php">Режиссёры</a></li>
+                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
         <div class="main-content">
             <div class="movie-page">
                 <?php if (!$movie): ?>
-                    <h1>Фильм не найден</h1>
                     <p>Укажите movie_id в URL, например: film.php?movie_id=1</p>
                 <?php else: ?>
                     <h1><?php echo htmlspecialchars($movie['title'] . " (" . $movie['year'] . ")"); ?></h1>
