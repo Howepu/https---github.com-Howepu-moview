@@ -1,5 +1,6 @@
 <?php
 require_once '../config.php';
+require_once 'auth.php';
 
 $action = $_GET['action'] ?? 'list';
 $id = $_GET['id'] ?? null;
@@ -106,8 +107,10 @@ $pageTitle = "Управление режиссерами - Админ-пане�
             <h1>Управление режиссерами</h1>
         </div>
         <div class="admin-nav">
+            <span class="admin-user">Добро пожаловать, <?= htmlspecialchars($_SESSION['admin_username']) ?>!</span>
             <a href="index.php" class="btn btn-secondary">Назад к панели</a>
             <a href="../main.php" class="btn btn-secondary">На сайт</a>
+            <a href="?action=logout" class="btn btn-danger">Выйти</a>
         </div>
     </div>
 

@@ -1,5 +1,6 @@
 <?php
 require_once '../config.php';
+require_once 'auth.php';
 
 // Получаем статистику
 $stats = [];
@@ -34,7 +35,9 @@ $pageTitle = "Админ-панель - MoviePortal";
             <h1>Админ-панель MoviePortal</h1>
         </div>
         <div class="admin-nav">
+            <span class="admin-user">Добро пожаловать, <?= htmlspecialchars($_SESSION['admin_username']) ?>!</span>
             <a href="../main.php" class="btn btn-secondary">Вернуться на сайт</a>
+            <a href="?action=logout" class="btn btn-danger">Выйти</a>
         </div>
     </div>
 

@@ -19,7 +19,3 @@ logs/
 tmp/
 *.tmp
 
-# DB
-*.sqlite
-*.sql
-/dbdata/
