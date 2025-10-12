@@ -2,6 +2,9 @@
 require_once '../config.php';
 require_once 'auth.php';
 
+// Проверяем права администратора
+checkAdminRole();
+
 $action = $_GET['action'] ?? 'list';
 $id = $_GET['id'] ?? null;
 $message = '';

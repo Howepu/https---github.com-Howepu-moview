@@ -32,15 +32,46 @@ function adminLogout() {
     exit;
 }
 
-// Функция для получения информации о текущем админе
-function getCurrentAdmin() {
+// Функция для получения информации о текущем пользователе
+function getCurrentUser() {
     if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
         return [
             'id' => $_SESSION['admin_id'] ?? null,
-            'username' => $_SESSION['admin_username'] ?? null
+            'username' => $_SESSION['admin_username'] ?? null,
+            'role' => $_SESSION['admin_role'] ?? 'user'
         ];
     }
     return null;
+}
+
+// Функция для проверки роли пользователя
+function hasRole($required_role) {
+    $user = getCurrentUser();
+    if (!$user) {
+        return false;
+    }
+    
+    // Админ имеет доступ ко всему
+    if ($user['role'] === 'admin') {
+        return true;
+    }
+    
+    // Проверяем конкретную роль
+    return $user['role'] === $required_role;
+}
+
+// Функция для проверки админских прав
+function checkAdminRole() {
+    if (!hasRole('admin')) {
+        // Если не админ, перенаправляем на страницу ошибки доступа
+        header('Location: access_denied.php');
+        exit;
+    }
+}
+
+// Для обратной совместимости
+function getCurrentAdmin() {
+    return getCurrentUser();
 }
 
 // Автоматическая проверка авторизации при подключении файла

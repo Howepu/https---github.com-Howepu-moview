@@ -23,19 +23,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         try {
             // Поиск пользователя в базе данных
-            $stmt = $pdo->prepare("SELECT id, username, password_hash FROM admin_users WHERE username = ?");
+            $stmt = $pdo->prepare("SELECT id, username, password_hash, role FROM admin_users WHERE username = ?");
             $stmt->execute([$username]);
-            $admin = $stmt->fetch();
+            $user = $stmt->fetch();
             
-            if ($admin && password_verify($password, $admin['password_hash'])) {
+            if ($user && password_verify($password, $user['password_hash'])) {
                 // Успешная авторизация
                 $_SESSION['admin_logged_in'] = true;
-                $_SESSION['admin_id'] = $admin['id'];
-                $_SESSION['admin_username'] = $admin['username'];
+                $_SESSION['admin_id'] = $user['id'];
+                $_SESSION['admin_username'] = $user['username'];
+                $_SESSION['admin_role'] = $user['role'];
                 
                 // Обновляем время последнего входа
                 $update_stmt = $pdo->prepare("UPDATE admin_users SET last_login = CURRENT_TIMESTAMP WHERE id = ?");
-                $update_stmt->execute([$admin['id']]);
+                $update_stmt->execute([$user['id']]);
                 
                 header('Location: index.php');
                 exit;
@@ -102,12 +103,13 @@ $pageTitle = "Вход в админ-панель - MoviePortal";
             </form>
             
             <div class="login-footer">
-                <p>Нет аккаунта? <a href="register.php" class="register-link">Зарегистрироваться</a></p>
                 <a href="../main.php" class="back-link">← Вернуться на сайт</a>
             </div>
             
             <div class="login-info">
-                <small>Тестовые данные: логин <strong>admin</strong>, пароль <strong>admin123</strong></small>
+                <small>Тестовые данные:<br>
+                Админ - логин: <strong>admin</strong>, пароль: <strong>admin123</strong><br>
+                Пользователь - логин: <strong>user</strong>, пароль: <strong>user123</strong></small>
             </div>
         </div>
     </div>

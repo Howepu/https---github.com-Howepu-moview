@@ -737,3 +737,32 @@ textarea.form-control {
         font-size: 0.8rem;
     }
 }
+
+/* Стили для отключенных элементов меню */
+.disabled-menu {
+    color: #6c757d;
+    font-style: italic;
+    cursor: not-allowed;
+    padding: 0.75rem 1.5rem;
+    display: block;
+    opacity: 0.6;
+}
+
+.stat-link.disabled {
+    color: #6c757d;
+    cursor: not-allowed;
+    text-decoration: none;
+    opacity: 0.6;
+}
+
+.stat-link.disabled:hover {
+    color: #6c757d;
+    text-decoration: none;
+}
+
+/* Стили для роли пользователя */
+.admin-user small {
+    font-size: 0.8em;
+    opacity: 0.8;
+    font-weight: 400;
+}
