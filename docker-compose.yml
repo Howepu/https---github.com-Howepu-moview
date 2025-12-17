@@ -29,7 +29,8 @@ services:
       POSTGRES_DB: movie_portal
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./admin_setup.sql:/docker-entrypoint-initdb.d/02-admin.sql
     ports:
       - "5432:5432"
 

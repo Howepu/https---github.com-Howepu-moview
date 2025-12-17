@@ -82,6 +82,12 @@ if ($genre_id && $selected_genre_name) {
         <div class="logo-container">
             <a href="main.php" class="logo">MoviePortal</a>
         </div>
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="search" id="globalSearch" placeholder="Поиск фильмов, режиссеров..." autocomplete="off">
+            <div id="searchResults" class="search-results"></div>
+        </div>
+        <button class="search-toggle" id="searchToggle">🔍</button>
         <div class="menu-toggle">
             <span></span>
             <span></span>
@@ -94,6 +100,7 @@ if ($genre_id && $selected_genre_name) {
                 <li><a href="films.php" class="active">Фильмы</a></li>
                 <li><a href="genres.php">Жанры</a></li>
                 <li><a href="directors.php">Режиссёры</a></li>
+                <li><a href="help.php">Помощь</a></li>
                 <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
@@ -103,6 +110,15 @@ if ($genre_id && $selected_genre_name) {
                 <a href="genres.php" class="category-btn">ЖАНРЫ</a>
             </div>
             
+            <?php if ($genre_id && $selected_genre_name): ?>
+                <div class="filter-info">
+                    <span class="filter-label">Жанр: <strong><?= htmlspecialchars($selected_genre_name) ?></strong></span>
+                    <span class="results-count">Найдено фильмов: <strong><?= count($movies) ?></strong></span>
+                    <a href="films.php" class="btn-clear-filter">✕ Сбросить фильтр</a>
+                </div>
+            <?php else: ?>
+                <div class="results-count-simple">Всего фильмов: <strong><?= count($movies) ?></strong></div>
+            <?php endif; ?>
             
             <div class="movie-grid">
                 <?php if (empty($movies)): ?>
@@ -148,6 +164,8 @@ if ($genre_id && $selected_genre_name) {
             <a href="#" class="social-icon" id="youtube">YouTube</a>
         </div>
     </div>
+    <script src="search.js"></script>
+    <script src="loader.js"></script>
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');

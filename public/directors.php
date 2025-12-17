@@ -21,6 +21,12 @@ $pageTitle = "MoviePortal - Режиссеры";
         <div class="logo-container">
             <a href="main.php" class="logo">MoviePortal</a>
         </div>
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="search" id="globalSearch" placeholder="Поиск фильмов, режиссеров..." autocomplete="off">
+            <div id="searchResults" class="search-results"></div>
+        </div>
+        <button class="search-toggle" id="searchToggle">🔍</button>
         <div class="menu-toggle">
             <span></span>
             <span></span>
@@ -33,11 +39,13 @@ $pageTitle = "MoviePortal - Режиссеры";
                 <li><a href="films.php">Фильмы</a></li>
                 <li><a href="genres.php">Жанры</a></li>
                 <li><a href="directors.php" class="active">Режиссёры</a></li>
+                <li><a href="help.php">Помощь</a></li>
                 <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
         <div class="main-content">
             <h1>Популярные режиссеры</h1>
+            <div class="results-count-simple">Всего режиссеров: <strong><?= count($directors) ?></strong></div>
             <div class="genre-banners">
                 <?php foreach ($directors as $director): ?>
                 <a href="films_by_directors.php?director_id=<?= $director['id'] ?>" class="genre-card">
@@ -62,6 +70,8 @@ $pageTitle = "MoviePortal - Режиссеры";
             <a href="#" class="social-icon" id="youtube">YouTube</a>
         </div>
     </div>
+    <script src="search.js"></script>
+    <script src="loader.js"></script>
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');

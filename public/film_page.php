@@ -46,7 +46,14 @@ if (!$movie_id) {
         <div class="logo-container">
             <a href="main.php" class="logo">MoviePortal</a>
         </div>
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="search" id="globalSearch" placeholder="Поиск фильмов, режиссеров..." autocomplete="off">
+            <div id="searchResults" class="search-results"></div>
+        </div>
+        <button class="search-toggle" id="searchToggle">🔍</button>
         <div class="menu-toggle">
+            <span></span>
             <span></span>
         </div>
     </div>
@@ -57,29 +64,62 @@ if (!$movie_id) {
                 <li><a href="films.php">Фильмы</a></li>
                 <li><a href="genres.php">Жанры</a></li>
                 <li><a href="directors.php">Режиссёры</a></li>
+                <li><a href="help.php">Помощь</a></li>
                 <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
         <div class="main-content">
-            <div class="movie-page">
-                <?php if (!$movie): ?>
-                    <p>Укажите movie_id в URL, например: film.php?movie_id=1</p>
-                <?php else: ?>
+            <?php if (!$movie): ?>
+                <div class="error-page">
+                    <div class="error-icon">🎬</div>
+                    <h2>Фильм не найден</h2>
+                    <p>К сожалению, запрашиваемый фильм не найден в нашей базе данных.</p>
+                    <div class="error-actions">
+                        <a href="films.php" class="btn btn-primary">Посмотреть все фильмы</a>
+                        <a href="main.php" class="btn btn-secondary">На главную</a>
+                    </div>
+                </div>
+            <?php else: ?>
+                <nav class="breadcrumbs" aria-label="Навигация">
+                    <ol style="list-style: none; padding-left: 0;">
+                        <li><a href="main.php">Главная</a></li>
+                        <li><a href="films.php">Фильмы</a></li>
+                        <li aria-current="page"><?= htmlspecialchars($movie['title']) ?></li>
+                    </ol>
+                </nav>
+                
+                <a href="javascript:history.back()" class="btn-back">← Назад к списку</a>
+                
+                <div class="movie-page">
                     <h1><?php echo htmlspecialchars($movie['title'] . " (" . $movie['year'] . ")"); ?></h1>
                     <div class="movie-info">
                         <div class="movie-poster">
                             <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
                                  alt="<?php echo htmlspecialchars($movie['title']); ?>" 
                                  width="300" height="450"
-                                 onerror="this.src='https://via.placeholder.com/300x450'">
+                                 onerror="this.src='https://via.placeholder.com/300x450?text=Нет+постера'">
                         </div>
                         <div class="movie-details">
-                            <p><strong>Год производства:</strong> <?php echo $movie['year']; ?></p>
-                            <p><strong>Страна:</strong> <?php echo htmlspecialchars($movie['country']); ?></p>
-                            <p><strong>Режиссер:</strong> <?php echo htmlspecialchars($movie['director_name']); ?></p>
-                            <p><strong>Сценарий:</strong> <?php echo htmlspecialchars($movie['director_name']); // Предполагаем, что режиссёр также сценарист ?></p>
-                            <p><strong>Композитор:</strong> Дэвид А. Хьюз, Джон Мерфи</p> <!-- Статические данные, так как нет в базе -->
-                            <p><strong>Продолжительность:</strong> <?php echo $movie['duration']; ?> мин</p>
+                            <div class="detail-item">
+                                <span class="detail-icon">📅</span>
+                                <span class="detail-label">Год производства:</span>
+                                <span class="detail-value"><?php echo $movie['year']; ?></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">🌍</span>
+                                <span class="detail-label">Страна:</span>
+                                <span class="detail-value"><?php echo htmlspecialchars($movie['country']); ?></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">🎬</span>
+                                <span class="detail-label">Режиссер:</span>
+                                <span class="detail-value"><?php echo htmlspecialchars($movie['director_name']); ?></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">⏱️</span>
+                                <span class="detail-label">Продолжительность:</span>
+                                <span class="detail-value"><?php echo $movie['duration']; ?> мин</span>
+                            </div>
                         </div>
                     </div>
                     <div class="movie-description">
@@ -98,8 +138,8 @@ if (!$movie_id) {
                             </ul>
                         <?php endif; ?>
                     </div>
-                <?php endif; ?>
-            </div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     <div class="footer">
@@ -114,6 +154,8 @@ if (!$movie_id) {
             <a href="#" class="social-icon" id="youtube">YouTube</a>
         </div>
     </div>
+    <script src="search.js"></script>
+    <script src="loader.js"></script>
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');

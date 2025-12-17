@@ -21,6 +21,12 @@ $pageTitle = "MoviePortal - Жанры";
         <div class="logo-container">
             <a href="main.php" class="logo">MoviePortal</a>
         </div>
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="search" id="globalSearch" placeholder="Поиск фильмов, режиссеров..." autocomplete="off">
+            <div id="searchResults" class="search-results"></div>
+        </div>
+        <button class="search-toggle" id="searchToggle">🔍</button>
         <div class="menu-toggle">
             <span></span>
             <span></span>
@@ -33,6 +39,7 @@ $pageTitle = "MoviePortal - Жанры";
                 <li><a href="films.php">Фильмы</a></li>
                 <li><a href="genres.php" class="active">Жанры</a></li>
                 <li><a href="directors.php">Режиссёры</a></li>
+                <li><a href="help.php">Помощь</a></li>
                 <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
@@ -41,6 +48,7 @@ $pageTitle = "MoviePortal - Жанры";
                 <a href="films.php" class="category-btn">ФИЛЬМЫ</a>
                 <a href="genres.php" class="category-btn active">ЖАНРЫ</a>
             </div>
+            <div class="results-count-simple">Всего жанров: <strong><?= count($genres) ?></strong></div>
             <div class="genre-banners">
                 <?php foreach ($genres as $genre): ?>
                 <a href="films.php?genre_id=<?= $genre['id'] ?>" class="genre-card">
@@ -65,6 +73,8 @@ $pageTitle = "MoviePortal - Жанры";
             <a href="#" class="social-icon" id="youtube">YouTube</a>
         </div>
     </div>
+    <script src="search.js"></script>
+    <script src="loader.js"></script>
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');
