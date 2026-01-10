@@ -18,8 +18,17 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoviePortal</title>
+    <meta name="description" content="MoviePortal - ваш путеводитель в мире кино. Каталог фильмов, режиссёров и жанров.">
+    <meta name="keywords" content="фильмы, кино, режиссёры, жанры, каталог фильмов">
+    <title>MoviePortal - Главная страница</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="MoviePortal - Главная страница">
+    <meta property="og:description" content="MoviePortal - ваш путеводитель в мире кино. Каталог фильмов, режиссёров и жанров.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost/main.php">
 </head>
 <body>
     <div class="header">
@@ -33,6 +42,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <button class="search-toggle" id="searchToggle">🔍</button>
         <div class="menu-toggle">
+            <span></span>
             <span></span>
             <span></span>
         </div>
@@ -66,8 +76,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <a href="film_page.php?movie_id=<?php echo $movie['id']; ?>">
                                 <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
                                      alt="<?php echo htmlspecialchars($movie['title']); ?>" 
-                                     height="150" width="200"
-                                     onerror="this.src='https://via.placeholder.com/200x300'">
+                                     width="200" height="300"
+                                     onerror="this.src='https://via.placeholder.com/200x300?text=Нет+постера'">
                                 <p><?php echo htmlspecialchars($movie['title']); ?></p>
                             </a>
                         </div>
@@ -155,10 +165,27 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
         const searchContainer = document.querySelector('.search-container');
         
         if (searchToggle) {
-            searchToggle.addEventListener('click', () => {
+            searchToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
                 searchContainer.classList.toggle('active');
+                searchToggle.classList.toggle('active');
+                
+                // Фокус на поле поиска при открытии
+                if (searchContainer.classList.contains('active')) {
+                    setTimeout(() => searchInput.focus(), 100);
+                }
+            });
+            
+            // Закрытие поиска при клике вне
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-container') && !e.target.closest('.search-toggle')) {
+                    searchContainer.classList.remove('active');
+                    searchToggle.classList.remove('active');
+                }
             });
         }
     </script>
+
+    <?php include 'includes/analytics.php'; ?>
 </body>
 </html>

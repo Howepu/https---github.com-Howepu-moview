@@ -1,0 +1,45 @@
+# EditorConfig для единого стиля кодирования
+# https://editorconfig.org
+
+root = true
+
+# Настройки для всех файлов
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# PHP файлы
+[*.php]
+indent_size = 4
+
+# JavaScript файлы
+[*.js]
+indent_size = 4
+
+# CSS файлы
+[*.css]
+indent_size = 4
+
+# HTML файлы
+[*.html]
+indent_size = 4
+
+# JSON файлы
+[*.json]
+indent_size = 2
+
+# YAML файлы
+[*.{yml,yaml}]
+indent_size = 2
+
+# Markdown файлы
+[*.md]
+trim_trailing_whitespace = false
+
+# SQL файлы
+[*.sql]
+indent_size = 4

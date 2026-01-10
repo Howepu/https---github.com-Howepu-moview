@@ -13,8 +13,16 @@ $pageTitle = "MoviePortal - Режиссеры";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Список режиссеров - изучайте фильмографию известных кинорежиссеров.">
+    <meta name="keywords" content="режиссеры, кинорежиссеры, фильмография">
     <title><?= htmlspecialchars($pageTitle) ?></title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="<?= htmlspecialchars($pageTitle) ?>">
+    <meta property="og:description" content="Список режиссеров - изучайте фильмографию известных кинорежиссеров.">
+    <meta property="og:type" content="website">
 </head>
 <body>
     <div class="header">
@@ -28,6 +36,7 @@ $pageTitle = "MoviePortal - Режиссеры";
         </div>
         <button class="search-toggle" id="searchToggle">🔍</button>
         <div class="menu-toggle">
+            <span></span>
             <span></span>
             <span></span>
         </div>
@@ -51,7 +60,8 @@ $pageTitle = "MoviePortal - Режиссеры";
                 <a href="films_by_directors.php?director_id=<?= $director['id'] ?>" class="genre-card">
                     <img src="<?= htmlspecialchars($director['photo_url']) ?>" 
                          alt="<?= htmlspecialchars($director['name']) ?>"
-                         onerror="this.src='https://via.placeholder.com/111x111?text=<?= urlencode(substr($director['name'], 0, 1)) ?>'">
+                         width="150" height="150"
+                         onerror="this.src='https://via.placeholder.com/150x150?text=<?= urlencode(substr($director['name'], 0, 1)) ?>'">
                     <p><?= htmlspecialchars($director['name']) ?></p>
                 </a>
                 <?php endforeach; ?>

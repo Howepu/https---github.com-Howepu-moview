@@ -398,6 +398,20 @@ textarea.form-control {
     min-height: 100px;
 }
 
+/* Подсказки в формах */
+.form-hint {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.form-control::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+}
+
 .form-actions {
     display: flex;
     gap: 1rem;

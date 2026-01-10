@@ -13,8 +13,16 @@ $pageTitle = "MoviePortal - Жанры";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Жанры фильмов - выберите жанр и найдите интересные фильмы.">
+    <meta name="keywords" content="жанры фильмов, категории фильмов, кино по жанрам">
     <title><?= htmlspecialchars($pageTitle) ?></title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="<?= htmlspecialchars($pageTitle) ?>">
+    <meta property="og:description" content="Жанры фильмов - выберите жанр и найдите интересные фильмы.">
+    <meta property="og:type" content="website">
 </head>
 <body>
     <div class="header">
@@ -28,6 +36,7 @@ $pageTitle = "MoviePortal - Жанры";
         </div>
         <button class="search-toggle" id="searchToggle">🔍</button>
         <div class="menu-toggle">
+            <span></span>
             <span></span>
             <span></span>
         </div>
@@ -54,7 +63,8 @@ $pageTitle = "MoviePortal - Жанры";
                 <a href="films.php?genre_id=<?= $genre['id'] ?>" class="genre-card">
                     <img src="<?= htmlspecialchars($genre['icon_url']) ?>" 
                          alt="<?= htmlspecialchars($genre['name']) ?>"
-                         onerror="this.src='https://via.placeholder.com/111x111?text=<?= urlencode($genre['name']) ?>'">
+                         width="150" height="150"
+                         onerror="this.src='https://via.placeholder.com/150x150?text=<?= urlencode($genre['name']) ?>'">
                     <p><?= htmlspecialchars($genre['name']) ?></p>
                 </a>
                 <?php endforeach; ?>

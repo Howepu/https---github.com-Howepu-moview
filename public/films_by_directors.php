@@ -66,8 +66,8 @@ if (!$director_id) {
                             <a href="film_page.php?movie_id=<?php echo $movie['id']; ?>">
                                 <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
                                      alt="<?php echo htmlspecialchars($movie['title']); ?>" 
-                                     width="125" height="125"
-                                     onerror="this.src='https://via.placeholder.com/125x125'">
+                                     width="120" height="180"
+                                     onerror="this.src='https://via.placeholder.com/120x180?text=Нет+постера'">
                                 <div class="movie-info">
                                     <h3><?php echo htmlspecialchars($movie['title']); ?></h3>
                                     <p><?php echo $movie['year'] . ' | ' . $movie['duration'] . ' мин'; ?></p>

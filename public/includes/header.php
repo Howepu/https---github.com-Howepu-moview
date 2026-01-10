@@ -11,5 +11,6 @@
     <div class="menu-toggle">
         <span></span>
         <span></span>
+        <span></span>
     </div>
 </div>

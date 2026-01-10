@@ -58,8 +58,23 @@
     const searchContainer = document.querySelector('.search-container');
     
     if (searchToggle && searchContainer) {
-        searchToggle.addEventListener('click', () => {
+        searchToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             searchContainer.classList.toggle('active');
+            searchToggle.classList.toggle('active');
+            
+            // Фокус на поле поиска при открытии
+            if (searchContainer.classList.contains('active')) {
+                setTimeout(() => searchInput.focus(), 100);
+            }
+        });
+        
+        // Закрытие мобильного поиска при клике вне
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-container') && !e.target.closest('.search-toggle')) {
+                searchContainer.classList.remove('active');
+                searchToggle.classList.remove('active');
+            }
         });
     }
 
@@ -71,10 +86,12 @@
             searchInput.focus();
         }
         
-        // Escape для закрытия результатов
+        // Escape для закрытия результатов и мобильного поиска
         if (e.key === 'Escape') {
             searchResults.classList.remove('show');
             searchInput.blur();
+            if (searchContainer) searchContainer.classList.remove('active');
+            if (searchToggle) searchToggle.classList.remove('active');
         }
     });
 })();

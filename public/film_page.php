@@ -55,6 +55,7 @@ if (!$movie_id) {
         <div class="menu-toggle">
             <span></span>
             <span></span>
+            <span></span>
         </div>
     </div>
     <div class="container">

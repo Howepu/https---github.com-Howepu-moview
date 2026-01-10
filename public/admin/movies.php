@@ -247,25 +247,33 @@ $pageTitle = "Управление фильмами - Админ-панель";
                     <div class="form-group">
                         <label for="title">Название фильма:</label>
                         <input type="text" id="title" name="title" class="form-control" 
-                               value="<?= htmlspecialchars($movie['title'] ?? '') ?>" required>
+                               value="<?= htmlspecialchars($movie['title'] ?? '') ?>" 
+                               placeholder="Например: Начало" required>
+                        <small class="form-hint">Полное название фильма на русском языке</small>
                     </div>
 
                     <div class="form-group">
                         <label for="year">Год выпуска:</label>
                         <input type="number" id="year" name="year" class="form-control" 
-                               value="<?= $movie['year'] ?? '' ?>" min="1900" max="2030" required>
+                               value="<?= $movie['year'] ?? '' ?>" min="1900" max="2030" 
+                               placeholder="2024" required>
+                        <small class="form-hint">Год от 1900 до 2030</small>
                     </div>
 
                     <div class="form-group">
                         <label for="duration">Длительность (минуты):</label>
                         <input type="number" id="duration" name="duration" class="form-control" 
-                               value="<?= $movie['duration'] ?? '' ?>" min="1" required>
+                               value="<?= $movie['duration'] ?? '' ?>" min="1" max="600"
+                               placeholder="120" required>
+                        <small class="form-hint">Продолжительность в минутах (например: 120)</small>
                     </div>
 
                     <div class="form-group">
                         <label for="country">Страна:</label>
                         <input type="text" id="country" name="country" class="form-control" 
-                               value="<?= htmlspecialchars($movie['country'] ?? '') ?>" required>
+                               value="<?= htmlspecialchars($movie['country'] ?? '') ?>" 
+                               placeholder="США, Великобритания" required>
+                        <small class="form-hint">Страна производства (можно несколько через запятую)</small>
                     </div>
 
                     <div class="form-group">
@@ -283,6 +291,7 @@ $pageTitle = "Управление фильмами - Админ-панель";
 
                     <div class="form-group">
                         <label for="genres">Жанры:</label>
+                        <small class="form-hint" style="display: block; margin-bottom: 0.5rem;">Выберите один или несколько жанров</small>
                         <div style="max-height: 150px; overflow-y: auto; border: 1px solid #ced4da; padding: 0.5rem; border-radius: 6px;">
                             <?php foreach ($genres as $genre): ?>
                                 <label style="display: block; margin-bottom: 0.25rem;">
@@ -297,12 +306,16 @@ $pageTitle = "Управление фильмами - Админ-панель";
                     <div class="form-group">
                         <label for="poster_url">URL постера:</label>
                         <input type="url" id="poster_url" name="poster_url" class="form-control" 
-                               value="<?= htmlspecialchars($movie['poster_url'] ?? '') ?>">
+                               value="<?= htmlspecialchars($movie['poster_url'] ?? '') ?>"
+                               placeholder="https://example.com/poster.jpg">
+                        <small class="form-hint">Прямая ссылка на изображение (jpg, png, webp)</small>
                     </div>
 
                     <div class="form-group">
                         <label for="description">Описание:</label>
-                        <textarea id="description" name="description" class="form-control" rows="4"><?= htmlspecialchars($movie['description'] ?? '') ?></textarea>
+                        <textarea id="description" name="description" class="form-control" rows="4" 
+                                  placeholder="Краткое описание сюжета фильма..."><?= htmlspecialchars($movie['description'] ?? '') ?></textarea>
+                        <small class="form-hint">Краткий синопсис фильма (2-3 предложения)</small>
                     </div>
 
                     <div class="form-actions">

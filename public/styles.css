@@ -142,9 +142,10 @@ body {
 
 .main-content .movie-card img {
     width: 200px;
-    height: 150px;
+    height: 300px;
     margin-right: 20px;
     object-fit: cover;
+    border-radius: 8px;
     flex-shrink: 0;
 }
 
@@ -282,8 +283,8 @@ body {
 }
 
 .genre-card img {
-    width: 111px;
-    height: 111px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     border-radius: 8px;
 }
@@ -384,6 +385,24 @@ body {
     transition: all 0.1s ease;
 }
 
+.movie-card {
+    position: relative;
+}
+
+.movie-rating-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+    color: #1a1a1a;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .movie-card a {
     text-decoration: none;
     color: inherit;
@@ -397,10 +416,11 @@ body {
 }
 
 .movie-card img {
-    width: 125px;
-    height: 125px;
+    width: 120px;
+    height: 180px;
     margin-right: 20px;
     object-fit: cover;
+    border-radius: 8px;
 }
 
 .movie-info h3 {
@@ -747,12 +767,25 @@ body {
 /* Адаптивность для новых элементов */
 @media (max-width: 768px) {
     .breadcrumbs {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
+        padding: 0.5rem 0.75rem;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
     }
     
-    .btn-back {
+    .breadcrumbs a,
+    .breadcrumbs span {
+        padding: 0.25rem 0.5rem;
+    }
+    
+    .btn-back,
+    .btn,
+    .btn-primary,
+    .btn-secondary {
         width: 100%;
         justify-content: center;
+        text-align: center;
     }
     
     .error-page {
@@ -895,6 +928,11 @@ body {
     color: #6c757d;
 }
 
+/* Кнопка поиска - скрыта на десктопе */
+.search-toggle {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .search-container {
         position: fixed;
@@ -902,25 +940,53 @@ body {
         left: 0;
         right: 0;
         max-width: 100%;
-        padding: 0 1rem;
+        padding: 1rem;
         background: #000;
-        padding-bottom: 1rem;
         z-index: 999;
         display: none;
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
     }
     
     .search-container.active {
         display: block;
+        transform: translateY(0);
+        opacity: 1;
     }
     
     .search-toggle {
-        display: block;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 1.5rem;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 69, 0, 0.2);
+        border: 2px solid #ff4500;
+        color: #ff4500;
+        font-size: 1.2rem;
         cursor: pointer;
-        padding: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        order: 2;
+    }
+    
+    .search-toggle:hover,
+    .search-toggle.active {
+        background: #ff4500;
+        color: white;
+    }
+    
+    .header {
+        gap: 0.5rem;
+        flex-wrap: nowrap;
+    }
+    
+    .logo-container {
+        padding: 5px 15px;
+    }
+    
+    .logo {
+        font-size: 20px;
     }
 }
 
@@ -935,9 +1001,7 @@ body {
     }
 }
 
-.search-toggle {
-    display: none;
-}
+/* search-toggle скрыт на десктопе, показывается в @media выше */
 
 /* Индикатор загрузки */
 .page-loader {
@@ -1028,15 +1092,21 @@ body {
 }
 
 .btn-clear-filter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     margin-left: auto;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.2rem;
     background: rgba(255, 255, 255, 0.2);
     color: white;
     text-decoration: none;
     border-radius: 8px;
     font-weight: 600;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.3);
+    white-space: nowrap;
 }
 
 .btn-clear-filter:hover {
@@ -1059,10 +1129,105 @@ body {
     font-weight: 700;
 }
 
+/* Панель инструментов для фильмов */
+.films-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.films-toolbar .filter-info {
+    margin-bottom: 0;
+}
+
+.films-toolbar .results-count-simple {
+    margin-bottom: 0;
+}
+
+/* Элементы сортировки */
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sort-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.sort-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1rem;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    color: #495057;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.sort-btn:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+    color: #212529;
+}
+
+.sort-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: transparent;
+    color: white;
+}
+
+.sort-btn.active:hover {
+    background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
+}
+
+.sort-arrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .films-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .sort-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .sort-buttons {
+        flex-wrap: wrap;
+    }
+    
+    .sort-btn {
+        flex: 1;
+        justify-content: center;
+        min-width: 80px;
+    }
+}
+
 @media (max-width: 768px) {
     .filter-info {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
         gap: 1rem;
     }
     
@@ -1070,6 +1235,34 @@ body {
         margin-left: 0;
         width: 100%;
         text-align: center;
+    }
+    
+    /* Вертикальные фильтры на мобильных */
+    .filters-container,
+    .category-buttons,
+    .filter-row {
+        flex-direction: column !important;
+        gap: 0.75rem;
+    }
+    
+    .category-btn,
+    .filter-btn,
+    select.filter-select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        text-align: center;
+    }
+    
+    /* Полноширинные кнопки действий */
+    .action-buttons,
+    .form-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .action-buttons .btn,
+    .form-actions .btn {
+        width: 100%;
     }
 }
 

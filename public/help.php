@@ -25,6 +25,7 @@ $pageTitle = "MoviePortal - Помощь";
         <div class="menu-toggle">
             <span></span>
             <span></span>
+            <span></span>
         </div>
     </div>
     <div class="container">
