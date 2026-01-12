@@ -27,12 +27,8 @@
    - **Region**: тот же, что и БД
    - **Branch**: `main`
    - **Root Directory**: оставьте пустым
-   - **Environment**: `Docker` (если используете Docker) или `PHP`
-   - **Build Command**: оставьте пустым
-   - **Start Command**: 
-     ```bash
-     php -S 0.0.0.0:$PORT -t public
-     ```
+   - **Language**: выберите `Docker`
+   - **Dockerfile Path**: оставьте `./Dockerfile` (по умолчанию)
    - **Plan**: `Free`
 
 ## Шаг 4: Настройка переменных окружения

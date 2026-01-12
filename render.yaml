@@ -1,12 +1,8 @@
 services:
   - type: web
     name: movieportal
-    env: php
-    buildCommand: |
-      # Установка зависимостей PHP (если будут использоваться Composer пакеты)
-      # composer install --no-dev --optimize-autoloader
-      echo "Build complete"
-    startCommand: php -S 0.0.0.0:$PORT -t public
+    env: docker
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: APP_ENV
         value: production
