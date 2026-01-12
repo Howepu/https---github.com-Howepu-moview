@@ -16,12 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Создание нового режиссера
         try {
             $stmt = $pdo->prepare("
-                INSERT INTO directors (name, biography, photo_url) 
+                INSERT INTO directors (name, bio, photo_url) 
                 VALUES (?, ?, ?)
             ");
             $stmt->execute([
                 $_POST['name'],
-                $_POST['biography'],
+                $_POST['bio'],
                 $_POST['photo_url']
             ]);
             
@@ -39,12 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $stmt = $pdo->prepare("
                 UPDATE directors 
-                SET name = ?, biography = ?, photo_url = ?
+                SET name = ?, bio = ?, photo_url = ?
                 WHERE id = ?
             ");
             $stmt->execute([
                 $_POST['name'],
-                $_POST['biography'],
+                $_POST['bio'],
                 $_POST['photo_url'],
                 $_POST['id']
             ]);
@@ -101,7 +101,7 @@ $pageTitle = "Управление режиссерами - Админ-пане�
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($pageTitle) ?></title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="admin-styles.css">
 </head>
 <body>
@@ -154,7 +154,7 @@ $pageTitle = "Управление режиссерами - Админ-пане�
                         FROM directors d
                         LEFT JOIN movies m ON d.id = m.director_id
                         GROUP BY d.id, d.name, d.photo_url
-                        ORDER BY d.name
+                        ORDER BY d.id
                     ");
                     $directors = $stmt->fetchAll();
                 } catch (PDOException $e) {
@@ -235,9 +235,9 @@ $pageTitle = "Управление режиссерами - Админ-пане�
                     </div>
 
                     <div class="form-group">
-                        <label for="biography">Биография:</label>
-                        <textarea id="biography" name="biography" class="form-control" rows="6" 
-                                  placeholder="Краткая биография режиссера..."><?= htmlspecialchars($director['biography'] ?? '') ?></textarea>
+                        <label for="bio">Биография:</label>
+                        <textarea id="bio" name="bio" class="form-control" rows="6" 
+                                  placeholder="Краткая биография режиссера..."><?= htmlspecialchars($director['bio'] ?? '') ?></textarea>
                     </div>
 
                     <?php if ($action === 'edit' && $director): ?>

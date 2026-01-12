@@ -136,7 +136,7 @@ $pageTitle = "Управление фильмами - Админ-панель";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($pageTitle) ?></title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="admin-styles.css">
 </head>
 <body>
@@ -193,7 +193,7 @@ $pageTitle = "Управление фильмами - Админ-панель";
                     LEFT JOIN movie_genres mg ON m.id = mg.movie_id
                     LEFT JOIN genres g ON mg.genre_id = g.id
                     GROUP BY m.id, d.name
-                    ORDER BY m.title
+                    ORDER BY m.id
                 ");
                 $movies = $stmt->fetchAll();
                 ?>

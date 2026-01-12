@@ -1,12 +1,12 @@
 <?php
-http_response_code(404);
+http_response_code(403);
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Страница не найдена - MoviePortal</title>
+    <title>Доступ запрещён - MoviePortal</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         .error-container {
@@ -21,7 +21,7 @@ http_response_code(404);
         .error-code {
             font-size: 8rem;
             font-weight: bold;
-            color: #3498db;
+            color: #e74c3c;
             margin: 0;
             line-height: 1;
         }
@@ -51,14 +51,12 @@ http_response_code(404);
     </style>
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
-    
     <div class="container">
         <div class="error-container">
-            <h1 class="error-code">404</h1>
-            <h2 class="error-title">Страница не найдена</h2>
-            <p class="error-message">К сожалению, запрашиваемая страница не существует или была перемещена.</p>
-            <a href="main.php" class="error-button">Вернуться на главную</a>
+            <h1 class="error-code">403</h1>
+            <h2 class="error-title">Доступ запрещён</h2>
+            <p class="error-message">У вас нет прав для доступа к этой странице.</p>
+            <a href="/main.php" class="error-button">Вернуться на главную</a>
         </div>
     </div>
 

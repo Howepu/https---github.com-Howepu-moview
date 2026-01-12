@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   nginx:
-    build: ./nginx
+    build: ./docker/nginx
     ports:
       - "80:80"
     volumes:
@@ -12,7 +10,7 @@ services:
       - postgres
 
   php:
-    build: ./php
+    build: ./docker/php
     volumes:
       - ./public:/var/www/html/public
     environment:
@@ -29,8 +27,8 @@ services:
       POSTGRES_DB: movie_portal
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql
-      - ./admin_setup.sql:/docker-entrypoint-initdb.d/02-admin.sql
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./sql/admin_setup.sql:/docker-entrypoint-initdb.d/02-admin.sql
     ports:
       - "5432:5432"
 

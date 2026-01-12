@@ -1,6 +1,9 @@
 <?php
 require_once 'config.php';
 
+// Установка Last-Modified заголовка
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime(__FILE__)) . ' GMT');
+
 // Получение 4 случайных фильмов
 $query = "
     SELECT m.id, m.title, m.poster_url
@@ -21,8 +24,22 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="description" content="MoviePortal - ваш путеводитель в мире кино. Каталог фильмов, режиссёров и жанров.">
     <meta name="keywords" content="фильмы, кино, режиссёры, жанры, каталог фильмов">
     <title>MoviePortal - Главная страница</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106218457', 'ym');
+
+        ym(106218457, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/106218457" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
     
     <!-- Open Graph -->
     <meta property="og:title" content="MoviePortal - Главная страница">
@@ -33,7 +50,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <div class="header">
         <div class="logo-container">
-            <a href="main.php" class="logo">MoviePortal</a>
+            <a href="main.php" class="logo" title="Вернуться на главную страницу">MoviePortal</a>
         </div>
         <div class="search-container">
             <span class="search-icon">🔍</span>
@@ -48,16 +65,16 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
     <div class="container">
-        <div class="nav">
+        <nav class="nav" aria-label="Основная навигация">
             <ul>
-                <li><a href="main.php" class="active">Главная</a></li>
-                <li><a href="films.php">Фильмы</a></li>
-                <li><a href="genres.php">Жанры</a></li>
-                <li><a href="directors.php">Режиссёры</a></li>
-                <li><a href="help.php">Помощь</a></li>
-                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
+                <li><a href="main.php" class="active" title="Главная страница">Главная</a></li>
+                <li><a href="films.php" title="Каталог всех фильмов">Фильмы</a></li>
+                <li><a href="genres.php" title="Просмотр фильмов по жанрам">Жанры</a></li>
+                <li><a href="directors.php" title="Список режиссёров">Режиссёры</a></li>
+                <li><a href="help.php" title="Справка и помощь">Помощь</a></li>
+                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
             </ul>
-        </div>
+        </nav>
         <div class="main-content">
             <div class="banner">
                 <div class="banner-text">
@@ -72,15 +89,16 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <p>Фильмы не найдены в базе данных.</p>
                 <?php else: ?>
                     <?php foreach ($movies as $movie): ?>
-                        <div class="movie-card">
-                            <a href="film_page.php?movie_id=<?php echo $movie['id']; ?>">
+                        <article class="movie-card">
+                            <a href="film_page.php?movie_id=<?php echo $movie['id']; ?>" 
+                               title="Смотреть информацию о фильме <?php echo htmlspecialchars($movie['title']); ?>">
                                 <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
                                      alt="<?php echo htmlspecialchars($movie['title']); ?>" 
                                      width="200" height="300"
                                      onerror="this.src='https://via.placeholder.com/200x300?text=Нет+постера'">
                                 <p><?php echo htmlspecialchars($movie['title']); ?></p>
                             </a>
-                        </div>
+                        </article>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
@@ -92,13 +110,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <a href="main.php" class="logo">MoviePortal</a>
             </div>
         </div>
-        <div class="social-links">
-            <a href="#" class="social-icon" id="telegram">Telegram</a>
-            <a href="#" class="social-icon" id="vk">VK</a>
-            <a href="#" class="social-icon" id="youtube">YouTube</a>
-        </div>
     </div>
-    <script src="loader.js"></script>
+    <script src="assets/js/loader.js"></script>
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');
@@ -185,7 +198,5 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             });
         }
     </script>
-
-    <?php include 'includes/analytics.php'; ?>
 </body>
 </html>

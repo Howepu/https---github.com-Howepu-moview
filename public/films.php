@@ -1,9 +1,17 @@
 <?php
 require_once 'config.php';
 
+// Установка Last-Modified заголовка
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime(__FILE__)) . ' GMT');
+
 // Проверяем, передан ли параметр жанра
 $genre_id = isset($_GET['genre_id']) ? (int)$_GET['genre_id'] : null;
 $selected_genre_name = '';
+
+// Параметры пагинации
+$page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$per_page = 5;
+$offset = ($page - 1) * $per_page;
 
 // Параметры сортировки
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'year';
@@ -36,6 +44,21 @@ if ($genre_id) {
     $selected_genre_name = $genre_result ? $genre_result['name'] : '';
 }
 
+// Подсчёт общего количества фильмов для пагинации
+if ($genre_id) {
+    $count_stmt = $pdo->prepare("
+        SELECT COUNT(DISTINCT m.id) as total
+        FROM movies m
+        JOIN movie_genres mg ON m.id = mg.movie_id
+        WHERE mg.genre_id = ?
+    ");
+    $count_stmt->execute([$genre_id]);
+} else {
+    $count_stmt = $pdo->query("SELECT COUNT(*) as total FROM movies");
+}
+$total_movies = $count_stmt->fetch()['total'];
+$total_pages = ceil($total_movies / $per_page);
+
 // Получаем список фильмов с информацией о режиссерах и жанрах
 if ($genre_id) {
     // Фильтруем по конкретному жанру
@@ -61,11 +84,12 @@ if ($genre_id) {
         )
         GROUP BY m.id, m.title, m.year, m.duration, m.country, m.poster_url, m.rating, d.name
         {$order_clause}
+        LIMIT ? OFFSET ?
     ");
-    $stmt->execute([$genre_id]);
+    $stmt->execute([$genre_id, $per_page, $offset]);
 } else {
-    // Показываем все фильмы
-    $stmt = $pdo->query("
+    // Показываем все фильмы с пагинацией
+    $stmt = $pdo->prepare("
         SELECT 
             m.id,
             m.title,
@@ -82,17 +106,40 @@ if ($genre_id) {
         JOIN genres g ON mg.genre_id = g.id
         GROUP BY m.id, m.title, m.year, m.duration, m.country, m.poster_url, m.rating, d.name
         {$order_clause}
+        LIMIT ? OFFSET ?
     ");
+    $stmt->execute([$per_page, $offset]);
 }
 $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Функция для формирования URL с сохранением параметров
-function buildSortUrl($newSort, $newOrder, $genre_id) {
+function buildSortUrl($newSort, $newOrder, $genre_id, $page) {
     $params = ['sort' => $newSort, 'order' => $newOrder];
     if ($genre_id) {
         $params['genre_id'] = $genre_id;
     }
+    if ($page > 1) {
+        $params['page'] = $page;
+    }
     return 'films.php?' . http_build_query($params);
+}
+
+// Функция для формирования URL пагинации
+function buildPageUrl($newPage, $sort, $order, $genre_id) {
+    $params = [];
+    if ($newPage > 1) {
+        $params['page'] = $newPage;
+    }
+    if ($sort !== 'year') {
+        $params['sort'] = $sort;
+    }
+    if ($order !== 'desc') {
+        $params['order'] = $order;
+    }
+    if ($genre_id) {
+        $params['genre_id'] = $genre_id;
+    }
+    return 'films.php' . ($params ? '?' . http_build_query($params) : '');
 }
 
 // Формируем заголовок страницы
@@ -111,8 +158,22 @@ if ($genre_id && $selected_genre_name) {
     <meta name="description" content="Каталог фильмов - смотрите полный список фильмов с рейтингами, жанрами и информацией о режиссерах.">
     <meta name="keywords" content="каталог фильмов, список фильмов, рейтинг фильмов, кино">
     <title><?= htmlspecialchars($pageTitle) ?></title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106218457', 'ym');
+
+        ym(106218457, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/106218457" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
     
     <!-- Open Graph -->
     <meta property="og:title" content="<?= htmlspecialchars($pageTitle) ?>">
@@ -122,7 +183,7 @@ if ($genre_id && $selected_genre_name) {
 <body>
     <div class="header">
         <div class="logo-container">
-            <a href="main.php" class="logo">MoviePortal</a>
+            <a href="main.php" class="logo" title="Вернуться на главную страницу">MoviePortal</a>
         </div>
         <div class="search-container">
             <span class="search-icon">🔍</span>
@@ -137,16 +198,16 @@ if ($genre_id && $selected_genre_name) {
         </div>
     </div>
     <div class="container">
-        <div class="nav">
+        <nav class="nav" aria-label="Основная навигация">
             <ul>
-                <li><a href="main.php">Главная</a></li>
-                <li><a href="films.php" class="active">Фильмы</a></li>
-                <li><a href="genres.php">Жанры</a></li>
-                <li><a href="directors.php">Режиссёры</a></li>
-                <li><a href="help.php">Помощь</a></li>
-                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
+                <li><a href="main.php" title="Главная страница">Главная</a></li>
+                <li><a href="films.php" class="active" title="Каталог всех фильмов">Фильмы</a></li>
+                <li><a href="genres.php" title="Просмотр фильмов по жанрам">Жанры</a></li>
+                <li><a href="directors.php" title="Список режиссёров">Режиссёры</a></li>
+                <li><a href="help.php" title="Справка и помощь">Помощь</a></li>
+                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
             </ul>
-        </div>
+        </nav>
         <div class="main-content">
             <div class="category-toggle">
                 <a href="films.php" class="category-btn active">ФИЛЬМЫ</a>
@@ -157,24 +218,24 @@ if ($genre_id && $selected_genre_name) {
                 <?php if ($genre_id && $selected_genre_name): ?>
                     <div class="filter-info">
                         <span class="filter-label">Жанр: <strong><?= htmlspecialchars($selected_genre_name) ?></strong></span>
-                        <span class="results-count">Найдено фильмов: <strong><?= count($movies) ?></strong></span>
+                        <span class="results-count">Найдено фильмов: <strong><?= $total_movies ?></strong></span>
                         <a href="films.php" class="btn-clear-filter">✕ Сбросить фильтр</a>
                     </div>
                 <?php else: ?>
-                    <div class="results-count-simple">Всего фильмов: <strong><?= count($movies) ?></strong></div>
+                    <div class="results-count-simple">Всего фильмов: <strong><?= $total_movies ?></strong></div>
                 <?php endif; ?>
                 
                 <div class="sort-controls">
                     <span class="sort-label">Сортировка:</span>
                     <div class="sort-buttons">
-                        <a href="<?= buildSortUrl('title', $sort === 'title' && $order === 'asc' ? 'desc' : 'asc', $genre_id) ?>" 
+                        <a href="<?= buildSortUrl('title', $sort === 'title' && $order === 'asc' ? 'desc' : 'asc', $genre_id, $page) ?>" 
                            class="sort-btn <?= $sort === 'title' ? 'active' : '' ?>">
                             Название
                             <?php if ($sort === 'title'): ?>
                                 <span class="sort-arrow"><?= $order === 'asc' ? '↑' : '↓' ?></span>
                             <?php endif; ?>
                         </a>
-                        <a href="<?= buildSortUrl('year', $sort === 'year' && $order === 'desc' ? 'asc' : 'desc', $genre_id) ?>" 
+                        <a href="<?= buildSortUrl('year', $sort === 'year' && $order === 'desc' ? 'asc' : 'desc', $genre_id, $page) ?>" 
                            class="sort-btn <?= $sort === 'year' ? 'active' : '' ?>">
                             Год
                             <?php if ($sort === 'year'): ?>
@@ -199,8 +260,9 @@ if ($genre_id && $selected_genre_name) {
                     </div>
                 <?php else: ?>
                     <?php foreach ($movies as $movie): ?>
-                    <div class="movie-card">
-                        <a href="film_page.php?movie_id=<?= $movie['id'] ?>">
+                    <article class="movie-card">
+                        <a href="film_page.php?movie_id=<?= $movie['id'] ?>" 
+                           title="Смотреть информацию о фильме <?= htmlspecialchars($movie['title']) ?>">
                             <?php if ($movie['rating']): ?>
                                 <div class="movie-rating-badge">★ <?= number_format($movie['rating'], 1) ?></div>
                             <?php endif; ?>
@@ -214,10 +276,83 @@ if ($genre_id && $selected_genre_name) {
                                 <p>Режиссер: <?= htmlspecialchars($movie['director']) ?></p>
                             </div>
                         </a>
-                    </div>
+                    </article>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
+            
+            <?php if ($total_pages > 1): ?>
+            <div class="pagination">
+                <div class="pagination-info">
+                    <span class="pagination-stats">
+                        <strong>Страница <?= $page ?></strong> из <strong><?= $total_pages ?></strong>
+                    </span>
+                    <span class="pagination-separator">•</span>
+                    <span class="pagination-count">
+                        Показано <strong><?= count($movies) ?></strong> из <strong><?= $total_movies ?></strong> фильмов
+                    </span>
+                </div>
+                <div class="pagination-controls">
+                    <?php if ($page > 1): ?>
+                        <a href="<?= buildPageUrl(1, $sort, $order, $genre_id) ?>" 
+                           class="pagination-btn pagination-nav" title="Первая страница">
+                            <span>⟨⟨</span>
+                        </a>
+                        <a href="<?= buildPageUrl($page - 1, $sort, $order, $genre_id) ?>" 
+                           class="pagination-btn pagination-nav" title="Предыдущая">
+                            <span>⟨</span>
+                        </a>
+                    <?php else: ?>
+                        <span class="pagination-btn pagination-nav disabled">⟨⟨</span>
+                        <span class="pagination-btn pagination-nav disabled">⟨</span>
+                    <?php endif; ?>
+                    
+                    <?php
+                    // Показываем до 5 страниц вокруг текущей
+                    $start = max(1, $page - 2);
+                    $end = min($total_pages, $page + 2);
+                    
+                    if ($start > 1): ?>
+                        <a href="<?= buildPageUrl(1, $sort, $order, $genre_id) ?>" 
+                           class="pagination-btn">1</a>
+                        <?php if ($start > 2): ?>
+                            <span class="pagination-dots">⋯</span>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    
+                    <?php for ($i = $start; $i <= $end; $i++): ?>
+                        <?php if ($i == $page): ?>
+                            <span class="pagination-btn active"><?= $i ?></span>
+                        <?php else: ?>
+                            <a href="<?= buildPageUrl($i, $sort, $order, $genre_id) ?>" 
+                               class="pagination-btn"><?= $i ?></a>
+                        <?php endif; ?>
+                    <?php endfor; ?>
+                    
+                    <?php if ($end < $total_pages): ?>
+                        <?php if ($end < $total_pages - 1): ?>
+                            <span class="pagination-dots">⋯</span>
+                        <?php endif; ?>
+                        <a href="<?= buildPageUrl($total_pages, $sort, $order, $genre_id) ?>" 
+                           class="pagination-btn"><?= $total_pages ?></a>
+                    <?php endif; ?>
+                    
+                    <?php if ($page < $total_pages): ?>
+                        <a href="<?= buildPageUrl($page + 1, $sort, $order, $genre_id) ?>" 
+                           class="pagination-btn pagination-nav" title="Следующая">
+                            <span>⟩</span>
+                        </a>
+                        <a href="<?= buildPageUrl($total_pages, $sort, $order, $genre_id) ?>" 
+                           class="pagination-btn pagination-nav" title="Последняя страница">
+                            <span>⟩⟩</span>
+                        </a>
+                    <?php else: ?>
+                        <span class="pagination-btn pagination-nav disabled">⟩</span>
+                        <span class="pagination-btn pagination-nav disabled">⟩⟩</span>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
     <div class="footer">
@@ -226,14 +361,9 @@ if ($genre_id && $selected_genre_name) {
                 <a href="main.php" class="logo">MoviePortal</a>
             </div>
         </div>
-        <div class="social-links">
-            <a href="#" class="social-icon" id="telegram">Telegram</a>
-            <a href="#" class="social-icon" id="vk">VK</a>
-            <a href="#" class="social-icon" id="youtube">YouTube</a>
-        </div>
     </div>
-    <script src="search.js"></script>
-    <script src="loader.js"></script>
+    <script src="assets/js/search.js"></script>
+    <script src="assets/js/loader.js"></script>
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');

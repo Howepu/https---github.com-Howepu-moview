@@ -9,4 +9,4 @@ Disallow: /init_admin.php
 Disallow: /init_telegram_system.php
 Disallow: /init_vk_system.php
 
-Sitemap: /sitemap.xml
+Sitemap: /static/sitemap_dynamic.php

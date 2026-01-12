@@ -102,7 +102,7 @@ $pageTitle = "Управление жанрами - Админ-панель";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($pageTitle) ?></title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="admin-styles.css">
 </head>
 <body>
@@ -154,43 +154,55 @@ $pageTitle = "Управление жанрами - Админ-панель";
                     FROM genres g
                     LEFT JOIN movie_genres mg ON g.id = mg.genre_id
                     GROUP BY g.id, g.name, g.description
-                    ORDER BY g.name
+                    ORDER BY g.id
                 ");
                 $genres = $stmt->fetchAll();
                 ?>
 
-                <div class="genres-grid">
-                    <?php foreach ($genres as $genre): ?>
-                    <div class="genre-card">
-                        <div class="genre-header">
-                            <h3><?= htmlspecialchars($genre['name']) ?></h3>
-                            <span class="genre-count"><?= $genre['movies_count'] ?> фильм(ов)</span>
-                        </div>
-                        
-                        <div class="genre-description">
-                            <?php if ($genre['description']): ?>
-                                <p><?= htmlspecialchars($genre['description']) ?></p>
-                            <?php else: ?>
-                                <p style="color: #6c757d; font-style: italic;">Описание не добавлено</p>
-                            <?php endif; ?>
-                        </div>
-                        
-                        <div class="genre-actions">
-                            <a href="?action=edit&id=<?= $genre['id'] ?>" class="btn btn-warning btn-sm">Редактировать</a>
-                            <?php if ($genre['movies_count'] > 0): ?>
-                                <a href="movies.php?genre_id=<?= $genre['id'] ?>" class="btn btn-info btn-sm">Фильмы</a>
-                            <?php endif; ?>
-                            <form method="POST" style="display: inline;" onsubmit="return confirm('Вы уверены, что хотите удалить этот жанр?<?= $genre['movies_count'] > 0 ? ' К нему привязано ' . $genre['movies_count'] . ' фильм(ов)!' : '' ?>')">
-                                <input type="hidden" name="id" value="<?= $genre['id'] ?>">
-                                <button type="submit" name="delete_genre" class="btn btn-danger btn-sm" 
-                                        <?= $genre['movies_count'] > 0 ? 'title="К жанру привязаны фильмы"' : '' ?>>
-                                    Удалить
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Название</th>
+                            <th>Описание</th>
+                            <th>Количество фильмов</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($genres as $genre): ?>
+                        <tr>
+                            <td><?= $genre['id'] ?></td>
+                            <td><strong><?= htmlspecialchars($genre['name']) ?></strong></td>
+                            <td>
+                                <?php if ($genre['description']): ?>
+                                    <?= htmlspecialchars(mb_substr($genre['description'], 0, 80)) . (mb_strlen($genre['description']) > 80 ? '...' : '') ?>
+                                <?php else: ?>
+                                    <span style="color: #6c757d; font-style: italic;">Описание не добавлено</span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <span class="badge"><?= $genre['movies_count'] ?></span>
+                                <?php if ($genre['movies_count'] > 0): ?>
+                                    <a href="movies.php?genre_id=<?= $genre['id'] ?>" style="font-size: 0.8em; color: #667eea;">Посмотреть</a>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <div class="table-actions">
+                                    <a href="?action=edit&id=<?= $genre['id'] ?>" class="btn btn-warning">Редактировать</a>
+                                    <form method="POST" style="display: inline;" onsubmit="return confirm('Вы уверены, что хотите удалить этот жанр?<?= $genre['movies_count'] > 0 ? ' К нему привязано ' . $genre['movies_count'] . ' фильм(ов)!' : '' ?>')">
+                                        <input type="hidden" name="id" value="<?= $genre['id'] ?>">
+                                        <button type="submit" name="delete_genre" class="btn btn-danger" 
+                                                <?= $genre['movies_count'] > 0 ? 'title="К жанру привязаны фильмы"' : '' ?>>
+                                            Удалить
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
 
                 <?php if (empty($genres)): ?>
                     <div class="empty-state">
@@ -248,81 +260,15 @@ $pageTitle = "Управление жанрами - Админ-панель";
         margin: 0;
     }
     
-    .genres-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-    }
-    
-    .genre-card {
-        background: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        border: 1px solid #e9ecef;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .genre-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    }
-    
-    .genre-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 1px solid #e9ecef;
-    }
-    
-    .genre-header h3 {
-        margin: 0;
-        color: #343a40;
-        font-size: 1.25rem;
-        font-weight: 600;
-    }
-    
-    .genre-count {
+    .badge {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         padding: 0.25rem 0.75rem;
         border-radius: 12px;
-        font-size: 0.75rem;
+        font-size: 0.85rem;
         font-weight: 600;
-    }
-    
-    .genre-description {
-        margin-bottom: 1.5rem;
-        min-height: 60px;
-    }
-    
-    .genre-description p {
-        margin: 0;
-        color: #6c757d;
-        line-height: 1.5;
-    }
-    
-    .genre-actions {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-    }
-    
-    .btn-sm {
-        padding: 0.375rem 0.75rem;
-        font-size: 0.875rem;
-    }
-    
-    .btn-info {
-        background: #17a2b8;
-        color: white;
-    }
-    
-    .btn-info:hover {
-        background: #138496;
+        display: inline-block;
+        margin-right: 0.5rem;
     }
     
     .empty-state {
@@ -332,6 +278,7 @@ $pageTitle = "Управление жанрами - Админ-панель";
         border-radius: 12px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         border: 1px solid #e9ecef;
+        margin-top: 2rem;
     }
     
     .empty-icon {
@@ -347,16 +294,6 @@ $pageTitle = "Управление жанрами - Админ-панель";
     .empty-state p {
         color: #6c757d;
         margin-bottom: 2rem;
-    }
-    
-    @media (max-width: 768px) {
-        .genres-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .genre-actions {
-            justify-content: center;
-        }
     }
     </style>
 </body>

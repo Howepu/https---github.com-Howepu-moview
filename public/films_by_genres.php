@@ -36,7 +36,21 @@ if (!$genre_id) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoviePortal - Фильмы жанра <?php echo htmlspecialchars($genre_name); ?></title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106218457', 'ym');
+
+        ym(106218457, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/106218457" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
 </head>
 <body>
     <div class="header">
@@ -58,6 +72,14 @@ if (!$genre_id) {
             </ul>
         </div>
         <div class="main-content">
+            <nav class="breadcrumbs" aria-label="Навигация">
+                <ol style="list-style: none; padding-left: 0;">
+                    <li><a href="main.php" title="Главная страница">Главная</a></li>
+                    <li><a href="genres.php" title="Все жанры">Жанры</a></li>
+                    <li aria-current="page"><?= htmlspecialchars($genre_name) ?></li>
+                </ol>
+            </nav>
+            
             <h2>Фильмы жанра: <?php echo htmlspecialchars($genre_name); ?></h2>
             <?php if (empty($movies)): ?>
             <?php else: ?>
@@ -86,11 +108,6 @@ if (!$genre_id) {
             <div class="footer-logo-container">
                 <a href="main.php" class="logo">MoviePortal</a>
             </div>
-        </div>
-        <div class="social-links">
-            <a href="#" class="social-icon" id="telegram">Telegram</a>
-            <a href="#" class="social-icon" id="vk">VK</a>
-            <a href="#" class="social-icon" id="youtube">YouTube</a>
         </div>
     </div>
     <script>

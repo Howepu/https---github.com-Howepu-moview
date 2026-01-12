@@ -1,6 +1,9 @@
 <?php
 require_once 'config.php';
 
+// Установка Last-Modified заголовка
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime(__FILE__)) . ' GMT');
+
 // Получаем ID фильма из GET-параметра
 $movie_id = isset($_GET['movie_id']) ? (int)$_GET['movie_id'] : null;
 
@@ -38,13 +41,68 @@ if (!$movie_id) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="<?php echo $movie ? htmlspecialchars($movie['title'] . ' (' . $movie['year'] . ') - ' . ($movie['description'] ?? 'Информация о фильме')) : 'Фильм не найден'; ?>">
     <title>MoviePortal - <?php echo $movie ? htmlspecialchars($movie['title'] . " (" . $movie['year'] . ")") : "Фильм не найден"; ?></title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/film_page_style.css">
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106218457', 'ym');
+
+        ym(106218457, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/106218457" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+    
+    <?php if ($movie): ?>
+    <!-- Schema.org микроразметка для Google Rich Snippets -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Movie",
+        "name": "<?= htmlspecialchars($movie['title'], ENT_QUOTES) ?>",
+        "datePublished": "<?= $movie['year'] ?>",
+        "duration": "PT<?= $movie['duration'] ?>M",
+        "director": {
+            "@type": "Person",
+            "name": "<?= htmlspecialchars($movie['director_name'], ENT_QUOTES) ?>"
+        },
+        "countryOfOrigin": {
+            "@type": "Country",
+            "name": "<?= htmlspecialchars($movie['country'], ENT_QUOTES) ?>"
+        },
+        "description": "<?= htmlspecialchars($movie['description'] ?? 'Информация о фильме', ENT_QUOTES) ?>",
+        "image": "<?= htmlspecialchars($movie['poster_url'], ENT_QUOTES) ?>"<?php if (!empty($actors)): ?>,
+        "actor": [
+            <?php foreach ($actors as $index => $actor): ?>
+            {
+                "@type": "Person",
+                "name": "<?= htmlspecialchars($actor, ENT_QUOTES) ?>"
+            }<?= $index < count($actors) - 1 ? ',' : '' ?>
+            <?php endforeach; ?>
+        ]
+        <?php endif; ?>
+    }
+    </script>
+    
+    <!-- Open Graph для соцсетей -->
+    <meta property="og:type" content="video.movie">
+    <meta property="og:title" content="<?= htmlspecialchars($movie['title']) ?> (<?= $movie['year'] ?>)">
+    <meta property="og:description" content="Режиссёр: <?= htmlspecialchars($movie['director_name']) ?>. <?= htmlspecialchars($movie['description'] ?? '') ?>">
+    <meta property="og:image" content="<?= htmlspecialchars($movie['poster_url']) ?>">
+    <meta property="og:url" content="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+    <?php endif; ?>
 </head>
 <body>
     <div class="header">
         <div class="logo-container">
-            <a href="main.php" class="logo">MoviePortal</a>
+            <a href="main.php" class="logo" title="Вернуться на главную страницу">MoviePortal</a>
         </div>
         <div class="search-container">
             <span class="search-icon">🔍</span>
@@ -59,16 +117,16 @@ if (!$movie_id) {
         </div>
     </div>
     <div class="container">
-        <div class="nav">
+        <nav class="nav" aria-label="Основная навигация">
             <ul>
-                <li><a href="main.php">Главная</a></li>
-                <li><a href="films.php">Фильмы</a></li>
-                <li><a href="genres.php">Жанры</a></li>
-                <li><a href="directors.php">Режиссёры</a></li>
-                <li><a href="help.php">Помощь</a></li>
-                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
+                <li><a href="main.php" title="Главная страница">Главная</a></li>
+                <li><a href="films.php" title="Каталог всех фильмов">Фильмы</a></li>
+                <li><a href="genres.php" title="Просмотр фильмов по жанрам">Жанры</a></li>
+                <li><a href="directors.php" title="Список режиссёров">Режиссёры</a></li>
+                <li><a href="help.php" title="Справка и помощь">Помощь</a></li>
+                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
             </ul>
-        </div>
+        </nav>
         <div class="main-content">
             <?php if (!$movie): ?>
                 <div class="error-page">
@@ -83,8 +141,8 @@ if (!$movie_id) {
             <?php else: ?>
                 <nav class="breadcrumbs" aria-label="Навигация">
                     <ol style="list-style: none; padding-left: 0;">
-                        <li><a href="main.php">Главная</a></li>
-                        <li><a href="films.php">Фильмы</a></li>
+                        <li><a href="main.php" title="Главная страница">Главная</a></li>
+                        <li><a href="films.php" title="Каталог фильмов">Фильмы</a></li>
                         <li aria-current="page"><?= htmlspecialchars($movie['title']) ?></li>
                     </ol>
                 </nav>
@@ -149,14 +207,9 @@ if (!$movie_id) {
                 <a href="main.php" class="logo">MoviePortal</a>
             </div>
         </div>
-        <div class="social-links">
-            <a href="#" class="social-icon" id="telegram">Telegram</a>
-            <a href="#" class="social-icon" id="vk">VK</a>
-            <a href="#" class="social-icon" id="youtube">YouTube</a>
-        </div>
     </div>
-    <script src="search.js"></script>
-    <script src="loader.js"></script>
+    <script src="assets/js/search.js"></script>
+    <script src="assets/js/loader.js"></script>
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');

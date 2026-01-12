@@ -10,7 +10,7 @@ echo "<h1>Инициализация VK OAuth системы</h1>\n";
 
 try {
     // Выполняем SQL скрипт для добавления поддержки VK
-    $sql = file_get_contents(__DIR__ . '/../vk_oauth_setup.sql');
+    $sql = file_get_contents(__DIR__ . '/../sql/vk_oauth_setup.sql');
     
     if ($sql === false) {
         throw new Exception('Не удалось прочитать файл vk_oauth_setup.sql');

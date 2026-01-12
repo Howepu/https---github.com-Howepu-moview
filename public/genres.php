@@ -1,6 +1,9 @@
 <?php
 require_once 'config.php';
 
+// Установка Last-Modified заголовка
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime(__FILE__)) . ' GMT');
+
 // Получаем список жанров из таблицы genres
 $stmt = $pdo->query("SELECT * FROM genres ORDER BY name");
 $genres = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -16,8 +19,22 @@ $pageTitle = "MoviePortal - Жанры";
     <meta name="description" content="Жанры фильмов - выберите жанр и найдите интересные фильмы.">
     <meta name="keywords" content="жанры фильмов, категории фильмов, кино по жанрам">
     <title><?= htmlspecialchars($pageTitle) ?></title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106218457', 'ym');
+
+        ym(106218457, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/106218457" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
     
     <!-- Open Graph -->
     <meta property="og:title" content="<?= htmlspecialchars($pageTitle) ?>">
@@ -27,7 +44,7 @@ $pageTitle = "MoviePortal - Жанры";
 <body>
     <div class="header">
         <div class="logo-container">
-            <a href="main.php" class="logo">MoviePortal</a>
+            <a href="main.php" class="logo" title="Вернуться на главную страницу">MoviePortal</a>
         </div>
         <div class="search-container">
             <span class="search-icon">🔍</span>
@@ -42,16 +59,16 @@ $pageTitle = "MoviePortal - Жанры";
         </div>
     </div>
     <div class="container">
-        <div class="nav">
+        <nav class="nav" aria-label="Основная навигация">
             <ul>
-                <li><a href="main.php">Главная</a></li>
-                <li><a href="films.php">Фильмы</a></li>
-                <li><a href="genres.php" class="active">Жанры</a></li>
-                <li><a href="directors.php">Режиссёры</a></li>
-                <li><a href="help.php">Помощь</a></li>
-                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
+                <li><a href="main.php" title="Главная страница">Главная</a></li>
+                <li><a href="films.php" title="Каталог всех фильмов">Фильмы</a></li>
+                <li><a href="genres.php" class="active" title="Просмотр фильмов по жанрам">Жанры</a></li>
+                <li><a href="directors.php" title="Список режиссёров">Режиссёры</a></li>
+                <li><a href="help.php" title="Справка и помощь">Помощь</a></li>
+                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
             </ul>
-        </div>
+        </nav>
         <div class="main-content">
             <div class="category-toggle">
                 <a href="films.php" class="category-btn">ФИЛЬМЫ</a>
@@ -60,7 +77,8 @@ $pageTitle = "MoviePortal - Жанры";
             <div class="results-count-simple">Всего жанров: <strong><?= count($genres) ?></strong></div>
             <div class="genre-banners">
                 <?php foreach ($genres as $genre): ?>
-                <a href="films.php?genre_id=<?= $genre['id'] ?>" class="genre-card">
+                <a href="films.php?genre_id=<?= $genre['id'] ?>" class="genre-card" 
+                   title="Смотреть фильмы в жанре <?= htmlspecialchars($genre['name']) ?>">
                     <img src="<?= htmlspecialchars($genre['icon_url']) ?>" 
                          alt="<?= htmlspecialchars($genre['name']) ?>"
                          width="150" height="150"
@@ -77,14 +95,9 @@ $pageTitle = "MoviePortal - Жанры";
                 <a href="main.php" class="logo">MoviePortal</a>
             </div>
         </div>
-        <div class="social-links">
-            <a href="#" class="social-icon" id="telegram">Telegram</a>
-            <a href="#" class="social-icon" id="vk">VK</a>
-            <a href="#" class="social-icon" id="youtube">YouTube</a>
-        </div>
     </div>
-    <script src="search.js"></script>
-    <script src="loader.js"></script>
+    <script src="assets/js/search.js"></script>
+    <script src="assets/js/loader.js"></script>
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');

@@ -10,7 +10,7 @@ echo "<h1>Инициализация Telegram OAuth системы</h1>\n";
 
 try {
     // Выполняем SQL скрипт для добавления поддержки Telegram
-    $sql = file_get_contents(__DIR__ . '/../telegram_oauth_setup.sql');
+    $sql = file_get_contents(__DIR__ . '/../sql/telegram_oauth_setup.sql');
     
     if ($sql === false) {
         throw new Exception('Не удалось прочитать файл telegram_oauth_setup.sql');

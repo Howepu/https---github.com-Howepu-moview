@@ -1,6 +1,9 @@
 <?php
 require_once 'config.php';
 
+// Установка Last-Modified заголовка
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime(__FILE__)) . ' GMT');
+
 // Получаем список режиссеров из базы данных
 $stmt = $pdo->query("SELECT * FROM directors ORDER BY name");
 $directors = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -16,8 +19,22 @@ $pageTitle = "MoviePortal - Режиссеры";
     <meta name="description" content="Список режиссеров - изучайте фильмографию известных кинорежиссеров.">
     <meta name="keywords" content="режиссеры, кинорежиссеры, фильмография">
     <title><?= htmlspecialchars($pageTitle) ?></title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106218457', 'ym');
+
+        ym(106218457, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/106218457" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
     
     <!-- Open Graph -->
     <meta property="og:title" content="<?= htmlspecialchars($pageTitle) ?>">
@@ -27,7 +44,7 @@ $pageTitle = "MoviePortal - Режиссеры";
 <body>
     <div class="header">
         <div class="logo-container">
-            <a href="main.php" class="logo">MoviePortal</a>
+            <a href="main.php" class="logo" title="Вернуться на главную страницу">MoviePortal</a>
         </div>
         <div class="search-container">
             <span class="search-icon">🔍</span>
@@ -42,22 +59,23 @@ $pageTitle = "MoviePortal - Режиссеры";
         </div>
     </div>
     <div class="container">
-        <div class="nav">
+        <nav class="nav" aria-label="Основная навигация">
             <ul>
-                <li><a href="main.php">Главная</a></li>
-                <li><a href="films.php">Фильмы</a></li>
-                <li><a href="genres.php">Жанры</a></li>
-                <li><a href="directors.php" class="active">Режиссёры</a></li>
-                <li><a href="help.php">Помощь</a></li>
-                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
+                <li><a href="main.php" title="Главная страница">Главная</a></li>
+                <li><a href="films.php" title="Каталог всех фильмов">Фильмы</a></li>
+                <li><a href="genres.php" title="Просмотр фильмов по жанрам">Жанры</a></li>
+                <li><a href="directors.php" class="active" title="Список режиссёров">Режиссёры</a></li>
+                <li><a href="help.php" title="Справка и помощь">Помощь</a></li>
+                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
             </ul>
-        </div>
+        </nav>
         <div class="main-content">
             <h1>Популярные режиссеры</h1>
             <div class="results-count-simple">Всего режиссеров: <strong><?= count($directors) ?></strong></div>
             <div class="genre-banners">
                 <?php foreach ($directors as $director): ?>
-                <a href="films_by_directors.php?director_id=<?= $director['id'] ?>" class="genre-card">
+                <a href="films_by_directors.php?director_id=<?= $director['id'] ?>" class="genre-card"
+                   title="Смотреть фильмы режиссёра <?= htmlspecialchars($director['name']) ?>">
                     <img src="<?= htmlspecialchars($director['photo_url']) ?>" 
                          alt="<?= htmlspecialchars($director['name']) ?>"
                          width="150" height="150"
@@ -74,14 +92,9 @@ $pageTitle = "MoviePortal - Режиссеры";
                 <a href="main.php" class="logo">MoviePortal</a>
             </div>
         </div>
-        <div class="social-links">
-            <a href="#" class="social-icon" id="telegram">Telegram</a>
-            <a href="#" class="social-icon" id="vk">VK</a>
-            <a href="#" class="social-icon" id="youtube">YouTube</a>
-        </div>
     </div>
-    <script src="search.js"></script>
-    <script src="loader.js"></script>
+    <script src="assets/js/search.js"></script>
+    <script src="assets/js/loader.js"></script>
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');
