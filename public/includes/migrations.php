@@ -6,17 +6,27 @@
 
 function runDatabaseMigrations($pdo) {
     try {
-        // Проверяем, существуют ли таблицы
+        // Проверяем, существуют ли основные таблицы
         $stmt = $pdo->query("
             SELECT COUNT(*) 
             FROM information_schema.tables 
             WHERE table_schema = 'public' 
-            AND table_name IN ('movies', 'directors', 'genres', 'movie_genres', 'actors', 'movie_actors', 'admin_users')
+            AND table_name IN ('movies', 'directors', 'genres', 'movie_genres', 'actors', 'movie_actors')
         ");
         
         $existingTables = $stmt->fetchColumn();
+        $mainTablesExist = ($existingTables >= 6);
         
-        if ($existingTables >= 7) {
+        // Отдельно проверяем таблицу admin_users
+        $stmt = $pdo->query("
+            SELECT COUNT(*) 
+            FROM information_schema.tables 
+            WHERE table_schema = 'public' 
+            AND table_name = 'admin_users'
+        ");
+        $adminTableExists = ($stmt->fetchColumn() > 0);
+        
+        if ($mainTablesExist && $adminTableExists) {
             return ['success' => true, 'message' => 'База данных уже инициализирована', 'skipped' => true];
         }
         
@@ -25,46 +35,55 @@ function runDatabaseMigrations($pdo) {
         // Начинаем транзакцию
         $pdo->beginTransaction();
         
-        // 0. Создаем таблицу администраторов
-        $pdo->exec("
-            CREATE TABLE IF NOT EXISTS admin_users (
-                id SERIAL PRIMARY KEY,
-                username VARCHAR(50) UNIQUE NOT NULL,
-                password_hash VARCHAR(255) NOT NULL,
-                email VARCHAR(100),
-                role VARCHAR(20) DEFAULT 'user' CHECK (role IN ('admin', 'user')),
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                last_login TIMESTAMP,
-                telegram_id BIGINT UNIQUE,
-                telegram_username VARCHAR(255),
-                telegram_first_name VARCHAR(255),
-                telegram_last_name VARCHAR(255),
-                telegram_photo_url VARCHAR(500),
-                yandex_id VARCHAR(255) UNIQUE,
-                yandex_login VARCHAR(255),
-                yandex_first_name VARCHAR(255),
-                yandex_last_name VARCHAR(255),
-                yandex_display_name VARCHAR(255),
-                yandex_avatar_url VARCHAR(500),
-                yandex_access_token VARCHAR(255),
-                vk_id BIGINT UNIQUE,
-                vk_access_token VARCHAR(255),
-                vk_avatar_url VARCHAR(500)
-            )
-        ");
+        // 0. Создаем таблицу администраторов (если её нет)
+        if (!$adminTableExists) {
+            error_log("MoviePortal: Создаем таблицу admin_users...");
+            $pdo->exec("
+                CREATE TABLE IF NOT EXISTS admin_users (
+                    id SERIAL PRIMARY KEY,
+                    username VARCHAR(50) UNIQUE NOT NULL,
+                    password_hash VARCHAR(255) NOT NULL,
+                    email VARCHAR(100),
+                    role VARCHAR(20) DEFAULT 'user' CHECK (role IN ('admin', 'user')),
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    last_login TIMESTAMP,
+                    telegram_id BIGINT UNIQUE,
+                    telegram_username VARCHAR(255),
+                    telegram_first_name VARCHAR(255),
+                    telegram_last_name VARCHAR(255),
+                    telegram_photo_url VARCHAR(500),
+                    yandex_id VARCHAR(255) UNIQUE,
+                    yandex_login VARCHAR(255),
+                    yandex_first_name VARCHAR(255),
+                    yandex_last_name VARCHAR(255),
+                    yandex_display_name VARCHAR(255),
+                    yandex_avatar_url VARCHAR(500),
+                    yandex_access_token VARCHAR(255),
+                    vk_id BIGINT UNIQUE,
+                    vk_access_token VARCHAR(255),
+                    vk_avatar_url VARCHAR(500)
+                )
+            ");
+            
+            // Создаем индексы
+            $pdo->exec("CREATE INDEX IF NOT EXISTS idx_admin_username ON admin_users(username)");
+            $pdo->exec("CREATE INDEX IF NOT EXISTS idx_admin_telegram_id ON admin_users(telegram_id)");
+            $pdo->exec("CREATE INDEX IF NOT EXISTS idx_admin_yandex_id ON admin_users(yandex_id)");
+            
+            // Вставляем админа (логин: admin, пароль: admin123)
+            $pdo->exec("
+                INSERT INTO admin_users (username, password_hash, email, role) 
+                VALUES ('admin', '\$2y\$10\$keY0E7kqwVWQXO/w7xsOiunvVmw6L9lWAh8u4dVbcSg3c0xMVRZR6', 'admin@movieportal.com', 'admin')
+                ON CONFLICT (username) DO NOTHING
+            ");
+            error_log("MoviePortal: Таблица admin_users создана!");
+        }
         
-        // Создаем индексы
-        $pdo->exec("CREATE INDEX IF NOT EXISTS idx_admin_username ON admin_users(username)");
-        $pdo->exec("CREATE INDEX IF NOT EXISTS idx_admin_telegram_id ON admin_users(telegram_id)");
-        $pdo->exec("CREATE INDEX IF NOT EXISTS idx_admin_yandex_id ON admin_users(yandex_id)");
-        
-        // Вставляем админа (логин: admin, пароль: admin123)
-        $pdo->exec("
-            INSERT INTO admin_users (username, password_hash, email, role) 
-            VALUES ('admin', '\$2y\$10\$keY0E7kqwVWQXO/w7xsOiunvVmw6L9lWAh8u4dVbcSg3c0xMVRZR6', 'admin@movieportal.com', 'admin')
-        ");
-        
-        // 1. Создаем таблицу режиссеров
+        // Если основные таблицы уже есть, пропускаем их создание
+        if ($mainTablesExist) {
+            $pdo->commit();
+            return ['success' => true, 'message' => 'Таблица admin_users добавлена', 'skipped' => false];
+        }
         $pdo->exec("
             CREATE TABLE IF NOT EXISTS directors (
                 id SERIAL PRIMARY KEY,
