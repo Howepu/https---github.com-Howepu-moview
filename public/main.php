@@ -45,7 +45,9 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta property="og:title" content="MoviePortal - Главная страница">
     <meta property="og:description" content="MoviePortal - ваш путеводитель в мире кино. Каталог фильмов, режиссёров и жанров.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="http://localhost/main.php">
+    <meta property="og:url" content="https://movieportal-utbt.onrender.com/main.php">
+    <meta property="og:image" content="https://movieportal-utbt.onrender.com/assets/images/og-image.jpg">
+    <link rel="canonical" href="https://movieportal-utbt.onrender.com/main.php">
 </head>
 <body>
     <div class="header">

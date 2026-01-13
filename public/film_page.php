@@ -96,7 +96,8 @@ if (!$movie_id) {
     <meta property="og:title" content="<?= htmlspecialchars($movie['title']) ?> (<?= $movie['year'] ?>)">
     <meta property="og:description" content="Режиссёр: <?= htmlspecialchars($movie['director_name']) ?>. <?= htmlspecialchars($movie['description'] ?? '') ?>">
     <meta property="og:image" content="<?= htmlspecialchars($movie['poster_url']) ?>">
-    <meta property="og:url" content="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+    <meta property="og:url" content="https://movieportal-utbt.onrender.com<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+    <link rel="canonical" href="https://movieportal-utbt.onrender.com<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
     <?php endif; ?>
 </head>
 <body>

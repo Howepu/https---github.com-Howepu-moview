@@ -2,11 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /config.php
-Disallow: /test_db.php
-Disallow: /test_password.php
-Disallow: /fix_admin_password.php
-Disallow: /init_admin.php
-Disallow: /init_telegram_system.php
-Disallow: /init_vk_system.php
+Disallow: /includes/
+Disallow: /errors/
 
-Sitemap: /static/sitemap_dynamic.php
+Sitemap: https://movieportal-utbt.onrender.com/static/sitemap.xml

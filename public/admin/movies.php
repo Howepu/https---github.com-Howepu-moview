@@ -198,6 +198,7 @@ $pageTitle = "Управление фильмами - Админ-панель";
                 $movies = $stmt->fetchAll();
                 ?>
 
+                <div class="table-responsive">
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -234,6 +235,7 @@ $pageTitle = "Управление фильмами - Админ-панель";
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                </div>
 
             <?php elseif ($action === 'create' || $action === 'edit'): ?>
                 <!-- Форма создания/редактирования -->

@@ -163,6 +163,7 @@ $pageTitle = "Управление режиссерами - Админ-пане�
                 }
                 ?>
 
+                <div class="table-responsive">
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -210,6 +211,7 @@ $pageTitle = "Управление режиссерами - Админ-пане�
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                </div>
 
             <?php elseif ($action === 'create' || $action === 'edit'): ?>
                 <!-- Форма создания/редактирования -->

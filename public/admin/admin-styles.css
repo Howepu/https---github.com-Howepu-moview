@@ -444,40 +444,154 @@ textarea.form-control {
 }
 
 /* Адаптивность */
+@media (max-width: 1024px) {
+    .admin-header {
+        padding: 1.5rem 2rem;
+    }
+    
+    .admin-logo h1 {
+        font-size: 2rem;
+    }
+    
+    .admin-container {
+        padding: 1.5rem;
+    }
+    
+    .admin-sidebar {
+        width: 280px;
+    }
+    
+    .admin-content {
+        padding: 2rem;
+    }
+}
+
 @media (max-width: 768px) {
+    .admin-header {
+        padding: 1rem 1.5rem;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .admin-logo h1 {
+        font-size: 1.8rem;
+    }
+    
+    .admin-nav {
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+        align-items: center;
+    }
+    
+    .admin-user {
+        margin-right: 0;
+        font-size: 0.9rem;
+    }
+    
     .admin-container {
         flex-direction: column;
+        padding: 1rem;
     }
     
     .admin-sidebar {
         width: 100%;
+        padding: 1.5rem 0;
     }
     
     .admin-menu {
         display: flex;
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
     
     .admin-menu ul {
         display: flex;
         white-space: nowrap;
+        gap: 0.5rem;
+        padding: 0 1rem;
+    }
+    
+    .admin-menu li {
+        flex-shrink: 0;
+    }
+    
+    .admin-menu a {
+        padding: 1rem 1.5rem;
+        font-size: 0.95rem;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+        border-radius: 8px;
+    }
+    
+    .admin-menu a:hover,
+    .admin-menu a.active {
+        transform: translateX(0);
+        border-left: none;
+        border-bottom-color: #667eea;
+        border-radius: 8px;
+    }
+    
+    .admin-content {
+        padding: 1.5rem;
+    }
+    
+    .admin-dashboard h2 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
     }
     
     .stats-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
     
     .action-buttons {
         flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
     }
     
     .recent-item {
         flex-direction: column;
         align-items: flex-start;
+        gap: 0.5rem;
     }
     
     .table-actions {
         flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .table-actions .btn {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Таблицы на мобильных */
+    table {
+        font-size: 0.85rem;
+    }
+    
+    table th,
+    table td {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    /* Формы на мобильных */
+    .form-group label {
+        font-size: 0.95rem;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 1rem;
     }
 }
 
@@ -723,32 +837,92 @@ textarea.form-control {
 }
 
 /* Адаптивность для страницы входа */
+@media (max-width: 768px) {
+    .login-box {
+        padding: 3rem 2rem;
+    }
+    
+    .login-header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .login-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    .yandex-login-btn,
+    .telegram-login-btn {
+        font-size: 1.1rem;
+        padding: 1.25rem;
+    }
+}
+
 @media (max-width: 480px) {
-    .login-container {
+    body.login-page {
         padding: 1rem;
+    }
+    
+    .login-container {
+        padding: 0;
+        max-width: 100%;
     }
     
     .login-box {
         padding: 2rem 1.5rem;
+        border-radius: 16px;
+    }
+    
+    .login-header {
+        margin-bottom: 2rem;
     }
     
     .login-header h1 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
     }
     
     .login-header h2 {
+        font-size: 1rem;
+    }
+    
+    .login-form .form-group label {
+        font-size: 0.95rem;
+    }
+    
+    .login-form .form-group input {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+    
+    .login-btn {
+        padding: 1.25rem;
         font-size: 1.1rem;
+    }
+    
+    .yandex-login-btn,
+    .telegram-login-btn {
+        font-size: 1rem;
+        padding: 1.1rem;
     }
     
     .admin-nav {
         flex-direction: column;
         gap: 0.5rem;
-        align-items: flex-end;
+        align-items: center;
     }
     
     .admin-user {
         margin-right: 0;
         font-size: 0.8rem;
+    }
+    
+    .error-message {
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .login-divider {
+        font-size: 0.9rem;
+        margin: 1.5rem 0;
     }
 }
 
@@ -1212,4 +1386,134 @@ textarea.form-control {
         transform: translateY(0);
         opacity: 1;
     }
+}
+
+/* Дополнительная адаптивность для таблиц */
+@media (max-width: 992px) {
+    .admin-table {
+        font-size: 0.9rem;
+    }
+    
+    .admin-table th,
+    .admin-table td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Горизонтальная прокрутка таблиц на мобильных */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .admin-table {
+        min-width: 600px;
+    }
+    
+    /* Модальные окна на мобильных */
+    .confirm-modal-content {
+        width: 95%;
+        max-width: 95%;
+        margin: 1rem;
+    }
+    
+    .confirm-modal-header h3 {
+        font-size: 1.3rem;
+    }
+    
+    .confirm-modal-body p {
+        font-size: 0.95rem;
+    }
+    
+    .confirm-modal-footer {
+        flex-direction: column-reverse;
+    }
+    
+    .btn-cancel, .btn-confirm {
+        width: 100%;
+    }
+    
+    /* Toast на мобильных */
+    .toast {
+        right: 10px;
+        left: 10px;
+        top: 10px;
+        max-width: calc(100% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    /* Карточки статистики */
+    .stat-card {
+        padding: 1.25rem;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+    }
+    
+    /* Кнопки */
+    .btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.95rem;
+    }
+    
+    /* Формы */
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+    
+    /* Модальные окна */
+    .confirm-modal-content {
+        border-radius: 12px;
+    }
+    
+    .confirm-modal-header {
+        padding: 1.25rem;
+    }
+    
+    .confirm-modal-body {
+        padding: 1.25rem;
+    }
+    
+    .confirm-modal-footer {
+        padding: 1rem;
+    }
+}
+
+/* Улучшение скроллбаров на мобильных */
+.admin-menu::-webkit-scrollbar {
+    height: 4px;
+}
+
+.admin-menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.admin-menu::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar {
+    height: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

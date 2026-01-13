@@ -159,6 +159,7 @@ $pageTitle = "Управление жанрами - Админ-панель";
                 $genres = $stmt->fetchAll();
                 ?>
 
+                <div class="table-responsive">
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -203,6 +204,7 @@ $pageTitle = "Управление жанрами - Админ-панель";
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                </div>
 
                 <?php if (empty($genres)): ?>
                     <div class="empty-state">
