@@ -4,8 +4,8 @@ require_once 'config.php';
 // Установка Last-Modified заголовка
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime(__FILE__)) . ' GMT');
 
-// Получаем ID жанра из GET-параметра
-$genre_id = isset($_GET['genre_id']) ? (int)$_GET['genre_id'] : null;
+// Получаем ID жанра из GET-параметра (поддержка id и genre_id для обратной совместимости)
+$genre_id = isset($_GET['genre_id']) ? (int)$_GET['genre_id'] : (isset($_GET['id']) ? (int)$_GET['id'] : null);
 
 if (!$genre_id) {
     $movies = [];
@@ -93,7 +93,7 @@ if (!$genre_id) {
                 <div class="movie-grid">
                     <?php foreach ($movies as $movie): ?>
                         <div class="movie-card">
-                            <a href="film_page.php?movie_id=<?php echo $movie['id']; ?>">
+                            <a href="/film/<?php echo $movie['id']; ?>.html">
                                 <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
                                      alt="Постер фильма <?php echo htmlspecialchars($movie['title']); ?>" 
                                      width="200" 

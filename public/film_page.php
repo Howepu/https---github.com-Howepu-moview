@@ -4,8 +4,8 @@ require_once 'config.php';
 // Установка Last-Modified заголовка
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime(__FILE__)) . ' GMT');
 
-// Получаем ID фильма из GET-параметра
-$movie_id = isset($_GET['movie_id']) ? (int)$_GET['movie_id'] : null;
+// Получаем ID фильма из GET-параметра (поддержка и id и movie_id для обратной совместимости)
+$movie_id = isset($_GET['id']) ? (int)$_GET['id'] : (isset($_GET['movie_id']) ? (int)$_GET['movie_id'] : null);
 
 if (!$movie_id) {
     $movie = null;

@@ -46,7 +46,7 @@ try {
         $lastmod = $movie['created_at'] ? date('Y-m-d', strtotime($movie['created_at'])) : date('Y-m-d');
         
         echo "  <url>\n";
-        echo "    <loc>" . htmlspecialchars($base_url . '/film_page.php?movie_id=' . $movie['id']) . "</loc>\n";
+        echo "    <loc>" . htmlspecialchars($base_url . '/film/' . $movie['id'] . '.html') . "</loc>\n";
         echo "    <lastmod>{$lastmod}</lastmod>\n";
         echo "    <changefreq>monthly</changefreq>\n";
         echo "    <priority>0.7</priority>\n";
@@ -64,7 +64,7 @@ try {
     
     foreach ($genres as $genre) {
         echo "  <url>\n";
-        echo "    <loc>" . htmlspecialchars($base_url . '/films.php?genre_id=' . $genre['id']) . "</loc>\n";
+        echo "    <loc>" . htmlspecialchars($base_url . '/genre/' . $genre['id'] . '.html') . "</loc>\n";
         echo "    <lastmod>" . date('Y-m-d') . "</lastmod>\n";
         echo "    <changefreq>weekly</changefreq>\n";
         echo "    <priority>0.6</priority>\n";
@@ -81,7 +81,7 @@ try {
     
     foreach ($directors as $director) {
         echo "  <url>\n";
-        echo "    <loc>" . htmlspecialchars($base_url . '/films_by_directors.php?director_id=' . $director['id']) . "</loc>\n";
+        echo "    <loc>" . htmlspecialchars($base_url . '/director/' . $director['id'] . '.html') . "</loc>\n";
         echo "    <lastmod>" . date('Y-m-d') . "</lastmod>\n";
         echo "    <changefreq>monthly</changefreq>\n";
         echo "    <priority>0.6</priority>\n";

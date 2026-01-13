@@ -110,7 +110,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php else: ?>
                     <?php foreach ($movies as $movie): ?>
                         <article class="movie-card">
-                            <a href="film_page.php?movie_id=<?php echo $movie['id']; ?>" 
+                            <a href="/film/<?php echo $movie['id']; ?>.html" 
                                title="Смотреть информацию о фильме <?php echo htmlspecialchars($movie['title']); ?>">
                                 <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
                                      alt="Постер фильма <?php echo htmlspecialchars($movie['title']); ?>" 
@@ -178,7 +178,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     .then(data => {
                         if (data.results && data.results.length > 0) {
                             searchResults.innerHTML = data.results.map(movie => `
-                                <a href="film_page.php?movie_id=${movie.id}" class="search-result-item">
+                                <a href="/film/${movie.id}.html" class="search-result-item">
                                     <img src="${movie.poster_url}" 
                                          alt="Постер фильма ${movie.title}" 
                                          class="search-result-poster"

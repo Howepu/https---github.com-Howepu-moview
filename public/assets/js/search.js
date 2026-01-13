@@ -25,7 +25,7 @@
                 .then(data => {
                     if (data.results && data.results.length > 0) {
                         searchResults.innerHTML = data.results.map(movie => `
-                            <a href="film_page.php?movie_id=${movie.id}" class="search-result-item">
+                            <a href="/film/${movie.id}.html" class="search-result-item">
                                 <img src="${movie.poster_url}" 
                                      alt="${movie.title}" 
                                      class="search-result-poster"

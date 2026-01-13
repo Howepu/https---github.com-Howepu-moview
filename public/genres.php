@@ -75,13 +75,13 @@ $pageTitle = "MoviePortal - Жанры";
         </nav>
         <main class="main-content">
             <div class="category-toggle">
-                <a href="films.php" class="category-btn">ФИЛЬМЫ</a>
-                <a href="genres.php" class="category-btn active">ЖАНРЫ</a>
+                <a href="/films.html" class="category-btn">ФИЛЬМЫ</a>
+                <a href="/genres.html" class="category-btn active">ЖАНРЫ</a>
             </div>
             <div class="results-count-simple">Всего жанров: <strong><?= count($genres) ?></strong></div>
             <div class="genre-banners">
                 <?php foreach ($genres as $genre): ?>
-                <a href="films.php?genre_id=<?= $genre['id'] ?>" class="genre-card" 
+                <a href="/genre/<?= $genre['id'] ?>.html" class="genre-card" 
                    title="Смотреть фильмы в жанре <?= htmlspecialchars($genre['name']) ?>">
                     <img src="<?= htmlspecialchars($genre['icon_url']) ?>" 
                          alt="<?= htmlspecialchars($genre['name']) ?>"

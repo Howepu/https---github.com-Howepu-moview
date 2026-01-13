@@ -265,7 +265,7 @@ if ($genre_id && $selected_genre_name) {
                 <?php else: ?>
                     <?php foreach ($movies as $movie): ?>
                     <article class="movie-card">
-                        <a href="film_page.php?movie_id=<?= $movie['id'] ?>" 
+                        <a href="/film/<?= $movie['id'] ?>.html" 
                            title="Смотреть информацию о фильме <?= htmlspecialchars($movie['title']) ?>">
                             <?php if ($movie['rating']): ?>
                                 <div class="movie-rating-badge">★ <?= number_format($movie['rating'], 1) ?></div>

@@ -78,7 +78,7 @@ $pageTitle = "MoviePortal - Режиссеры";
             <div class="results-count-simple">Всего режиссеров: <strong><?= count($directors) ?></strong></div>
             <div class="genre-banners">
                 <?php foreach ($directors as $director): ?>
-                <a href="films_by_directors.php?director_id=<?= $director['id'] ?>" class="genre-card"
+                <a href="/director/<?= $director['id'] ?>.html" class="genre-card"
                    title="Смотреть фильмы режиссёра <?= htmlspecialchars($director['name']) ?>">
                     <img src="<?= htmlspecialchars($director['photo_url']) ?>" 
                          alt="<?= htmlspecialchars($director['name']) ?>"
