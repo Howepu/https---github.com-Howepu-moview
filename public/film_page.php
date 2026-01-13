@@ -109,7 +109,7 @@ if (!$movie_id) {
     <div class="nav-overlay" id="navOverlay"></div>
     <div class="header">
         <div class="logo-container">
-            <a href="main.php" class="logo" title="Вернуться на главную страницу">MoviePortal</a>
+            <a href="/main.php" class="logo" title="Вернуться на главную страницу">MoviePortal</a>
         </div>
         <div class="search-container">
             <span class="search-icon">🔍</span>
@@ -126,12 +126,12 @@ if (!$movie_id) {
     <div class="container">
         <nav class="nav" aria-label="Основная навигация">
             <ul>
-                <li><a href="main.php" title="Главная страница">Главная</a></li>
-                <li><a href="films.php" title="Каталог всех фильмов">Фильмы</a></li>
-                <li><a href="genres.php" title="Просмотр фильмов по жанрам">Жанры</a></li>
-                <li><a href="directors.php" title="Список режиссёров">Режиссёры</a></li>
-                <li><a href="help.php" title="Справка и помощь">Помощь</a></li>
-                <li><a href="admin/index.php" style="color: #ff4444; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
+                <li><a href="/main.php" title="Главная страница">Главная</a></li>
+                <li><a href="/films.php" title="Каталог всех фильмов">Фильмы</a></li>
+                <li><a href="/genres.php" title="Просмотр фильмов по жанрам">Жанры</a></li>
+                <li><a href="/directors.php" title="Список режиссёров">Режиссёры</a></li>
+                <li><a href="/help.php" title="Справка и помощь">Помощь</a></li>
+                <li><a href="/admin/index.php" style="color: #ff4444; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
             </ul>
         </nav>
         <main class="main-content">
@@ -141,15 +141,15 @@ if (!$movie_id) {
                     <h2>Фильм не найден</h2>
                     <p>К сожалению, запрашиваемый фильм не найден в нашей базе данных.</p>
                     <div class="error-actions">
-                        <a href="films.php" class="btn btn-primary">Посмотреть все фильмы</a>
-                        <a href="main.php" class="btn btn-secondary">На главную</a>
+                        <a href="/films.php" class="btn btn-primary">Посмотреть все фильмы</a>
+                        <a href="/main.php" class="btn btn-secondary">На главную</a>
                     </div>
                 </div>
             <?php else: ?>
                 <nav class="breadcrumbs" aria-label="Навигация">
                     <ol style="list-style: none; padding-left: 0;">
-                        <li><a href="main.php" title="Главная страница">Главная</a></li>
-                        <li><a href="films.php" title="Каталог фильмов">Фильмы</a></li>
+                        <li><a href="/main.php" title="Главная страница">Главная</a></li>
+                        <li><a href="/films.php" title="Каталог фильмов">Фильмы</a></li>
                         <li aria-current="page"><?= htmlspecialchars($movie['title']) ?></li>
                     </ol>
                 </nav>

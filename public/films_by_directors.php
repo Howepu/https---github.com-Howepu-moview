@@ -61,7 +61,7 @@ if (!$director_id) {
     <div class="nav-overlay" id="navOverlay"></div>
     <div class="header">
         <div class="logo-container">
-            <a href="main.php" class="logo">MoviePortal</a>
+            <a href="/main.php" class="logo">MoviePortal</a>
         </div>
         <div class="menu-toggle">
             <span></span>
@@ -70,18 +70,18 @@ if (!$director_id) {
     <div class="container">
         <div class="nav">
             <ul>
-                <li><a href="main.php">Главная</a></li>
-                <li><a href="films.php">Фильмы</a></li>
-                <li><a href="genres.php">Жанры</a></li>
-                <li><a href="directors.php">Режиссёры</a></li>
-                <li><a href="admin/index.php" style="color: #ff4444; font-weight: bold;">Админ-панель</a></li>
+                <li><a href="/main.php">Главная</a></li>
+                <li><a href="/films.php">Фильмы</a></li>
+                <li><a href="/genres.php">Жанры</a></li>
+                <li><a href="/directors.php">Режиссёры</a></li>
+                <li><a href="/admin/index.php" style="color: #ff4444; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
         <main class="main-content">
             <nav class="breadcrumbs" aria-label="Навигация">
                 <ol style="list-style: none; padding-left: 0;">
-                    <li><a href="main.php" title="Главная страница">Главная</a></li>
-                    <li><a href="directors.php" title="Все режиссёры">Режиссёры</a></li>
+                    <li><a href="/main.php" title="Главная страница">Главная</a></li>
+                    <li><a href="/directors.php" title="Все режиссёры">Режиссёры</a></li>
                     <li aria-current="page"><?= htmlspecialchars($director_name) ?></li>
                 </ol>
             </nav>
