@@ -6,6 +6,11 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-x: hidden;
+}
+
+html {
+    overflow-x: hidden;
 }
 
 .container {
@@ -26,6 +31,8 @@ body {
     align-items: center;
     position: relative;
     gap: 2rem;
+    overflow: hidden;
+    max-width: 100%;
 }
 
 .logo-container {
