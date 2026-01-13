@@ -224,14 +224,14 @@ $pageTitle = "Управление фильмами - Админ-панель";
                     <tbody>
                         <?php foreach ($movies as $movie): ?>
                         <tr>
-                            <td><?= $movie['id'] ?></td>
-                            <td><?= htmlspecialchars($movie['title']) ?></td>
-                            <td><?= $movie['year'] ?></td>
-                            <td><?= $movie['duration'] ?> мин</td>
-                            <td><?= htmlspecialchars($movie['country']) ?></td>
-                            <td><?= htmlspecialchars($movie['director']) ?></td>
-                            <td><?= htmlspecialchars($movie['genres'] ?? 'Нет жанров') ?></td>
-                            <td>
+                            <td data-label="ID"><?= $movie['id'] ?></td>
+                            <td data-label="Название"><?= htmlspecialchars($movie['title']) ?></td>
+                            <td data-label="Год"><?= $movie['year'] ?></td>
+                            <td data-label="Длительность"><?= $movie['duration'] ?> мин</td>
+                            <td data-label="Страна"><?= htmlspecialchars($movie['country']) ?></td>
+                            <td data-label="Режиссёр"><?= htmlspecialchars($movie['director']) ?></td>
+                            <td data-label="Жанры"><?= htmlspecialchars($movie['genres'] ?? 'Нет жанров') ?></td>
+                            <td data-label="Действия">
                                 <div class="table-actions">
                                     <a href="?action=edit&id=<?= $movie['id'] ?>" class="btn btn-warning">Редактировать</a>
                                     <form method="POST" style="display: inline;" onsubmit="return confirm('Вы уверены, что хотите удалить этот фильм?')">

@@ -182,22 +182,22 @@ $pageTitle = "Управление жанрами - Админ-панель";
                     <tbody>
                         <?php foreach ($genres as $genre): ?>
                         <tr>
-                            <td><?= $genre['id'] ?></td>
-                            <td><strong><?= htmlspecialchars($genre['name']) ?></strong></td>
-                            <td>
+                            <td data-label="ID"><?= $genre['id'] ?></td>
+                            <td data-label="Название"><strong><?= htmlspecialchars($genre['name']) ?></strong></td>
+                            <td data-label="Описание">
                                 <?php if ($genre['description']): ?>
                                     <?= htmlspecialchars(mb_substr($genre['description'], 0, 80)) . (mb_strlen($genre['description']) > 80 ? '...' : '') ?>
                                 <?php else: ?>
                                     <span style="color: #6c757d; font-style: italic;">Описание не добавлено</span>
                                 <?php endif; ?>
                             </td>
-                            <td>
+                            <td data-label="Фильмов">
                                 <span class="badge"><?= $genre['movies_count'] ?></span>
                                 <?php if ($genre['movies_count'] > 0): ?>
                                     <a href="movies.php?genre_id=<?= $genre['id'] ?>" style="font-size: 0.8em; color: #667eea;">Посмотреть</a>
                                 <?php endif; ?>
                             </td>
-                            <td>
+                            <td data-label="Действия">
                                 <div class="table-actions">
                                     <a href="?action=edit&id=<?= $genre['id'] ?>" class="btn btn-warning">Редактировать</a>
                                     <form method="POST" style="display: inline;" onsubmit="return confirm('Вы уверены, что хотите удалить этот жанр?<?= $genre['movies_count'] > 0 ? ' К нему привязано ' . $genre['movies_count'] . ' фильм(ов)!' : '' ?>')">

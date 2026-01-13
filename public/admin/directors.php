@@ -186,8 +186,8 @@ $pageTitle = "Управление режиссерами - Админ-пане�
                     <tbody>
                         <?php foreach ($directors as $director): ?>
                         <tr>
-                            <td><?= $director['id'] ?></td>
-                            <td>
+                            <td data-label="ID"><?= $director['id'] ?></td>
+                            <td data-label="Фото">
                                 <?php if ($director['photo_url']): ?>
                                     <img src="<?= htmlspecialchars($director['photo_url']) ?>" 
                                          alt="<?= htmlspecialchars($director['name']) ?>" 
@@ -197,14 +197,14 @@ $pageTitle = "Управление режиссерами - Админ-пане�
                                     <div style="width: 50px; height: 50px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">👤</div>
                                 <?php endif; ?>
                             </td>
-                            <td><?= htmlspecialchars($director['name']) ?></td>
-                            <td>
+                            <td data-label="Имя"><?= htmlspecialchars($director['name']) ?></td>
+                            <td data-label="Фильмов">
                                 <span class="badge"><?= $director['movies_count'] ?></span>
                                 <?php if ($director['movies_count'] > 0): ?>
                                     <a href="movies.php?director_id=<?= $director['id'] ?>" style="font-size: 0.8em; color: #667eea;">Посмотреть</a>
                                 <?php endif; ?>
                             </td>
-                            <td>
+                            <td data-label="Действия">
                                 <div class="table-actions">
                                     <a href="?action=edit&id=<?= $director['id'] ?>" class="btn btn-warning">Редактировать</a>
                                     <form method="POST" style="display: inline;" onsubmit="return confirm('Вы уверены, что хотите удалить этого режиссера?<?= $director['movies_count'] > 0 ? ' У него есть ' . $director['movies_count'] . ' фильм(ов)!' : '' ?>')">
