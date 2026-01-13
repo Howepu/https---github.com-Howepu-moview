@@ -77,35 +77,6 @@ VALUES ('admin', '$2y$10$keY0E7kqwVWQXO/w7xsOiunvVmw6L9lWAh8u4dVbcSg3c0xMVRZR6',
 INSERT INTO admin_users (username, password_hash, email, role) 
 VALUES ('user', '$2y$10$zupCEm.zBTHH1J6Iem4GTu4nQZO5L9lWAh8u4dVbcSg3c0xMVRZR6', 'user@movieportal.com', 'user');
 
--- Добавление поддержки VK OAuth
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS vk_id BIGINT UNIQUE;
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS vk_access_token VARCHAR(255);
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS vk_avatar_url VARCHAR(500);
-
--- Создание индекса для быстрого поиска по VK ID
-CREATE INDEX IF NOT EXISTS idx_admin_vk_id ON admin_users(vk_id);
-
--- Добавление поддержки Telegram OAuth
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS telegram_id BIGINT UNIQUE;
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS telegram_username VARCHAR(255);
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS telegram_first_name VARCHAR(255);
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS telegram_last_name VARCHAR(255);
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS telegram_photo_url VARCHAR(500);
-
--- Создание индекса для быстрого поиска по Telegram ID
-CREATE INDEX IF NOT EXISTS idx_admin_telegram_id ON admin_users(telegram_id);
-
--- Добавление поддержки Одноклассники OAuth
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS ok_id BIGINT UNIQUE;
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS ok_first_name VARCHAR(255);
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS ok_last_name VARCHAR(255);
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS ok_name VARCHAR(255);
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS ok_avatar_url VARCHAR(500);
-ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS ok_access_token VARCHAR(255);
-
--- Создание индекса для быстрого поиска по OK ID
-CREATE INDEX IF NOT EXISTS idx_admin_ok_id ON admin_users(ok_id);
-
 -- Добавление поддержки Яндекс ID OAuth
 ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS yandex_id VARCHAR(255) UNIQUE;
 ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS yandex_login VARCHAR(255);
@@ -125,19 +96,16 @@ CREATE INDEX IF NOT EXISTS idx_admin_yandex_id ON admin_users(yandex_id);
 -- Пользователь - логин: "user", пароль: "user123", роль: "user"
 -- В реальном проекте пароли должны быть более сложными
 
--- Поля для социальных сетей:
--- vk_id - уникальный ID пользователя ВКонтакте
--- vk_access_token - токен доступа для API ВК (опционально)
--- vk_avatar_url - URL аватара пользователя из ВК
--- telegram_id - уникальный ID пользователя Telegram
--- telegram_username - имя пользователя в Telegram (@username)
--- telegram_first_name - имя пользователя
--- telegram_last_name - фамилия пользователя
--- telegram_photo_url - URL фото профиля пользователя
--- ok_id - уникальный ID пользователя Одноклассники
--- ok_first_name - имя пользователя в OK
--- ok_last_name - фамилия пользователя в OK
--- ok_name - полное имя пользователя в OK
+-- Поля для Яндекс ID OAuth:
+-- yandex_id - уникальный ID пользователя Яндекс
+-- yandex_login - логин пользователя в Яндекс
+-- yandex_first_name - имя пользователя
+-- yandex_last_name - фамилия пользователя
+-- yandex_display_name - отображаемое имя
+-- yandex_real_name - реальное имя
+-- yandex_email - email пользователя
+-- yandex_avatar_url - URL аватара пользователя
+-- yandex_access_token - токен доступа для API Яндекс
 -- ok_avatar_url - URL аватара пользователя из OK
 -- ok_access_token - токен доступа для API OK
 -- yandex_id - уникальный ID пользователя Яндекс

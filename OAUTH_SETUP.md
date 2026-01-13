@@ -16,21 +16,6 @@ https://movieportal-utbt.onrender.com/admin/yandex_callback.php
    ```
 4. Нажмите **"Сохранить"**
 
-## Telegram Bot OAuth
-
-**Домен для добавления:**
-```
-movieportal-utbt.onrender.com
-```
-
-**Инструкция:**
-1. Откройте Telegram и найдите @BotFather
-2. Отправьте команду: `/mybots`
-3. Выберите бота: `@oauth_barrier_bot`
-4. Нажмите **Bot Settings** → **Domain**
-5. Введите домен: `movieportal-utbt.onrender.com`
-6. Подтвердите
-
 ## Проверка после настройки
 
 1. Запушьте обновленный код:
@@ -44,13 +29,12 @@ movieportal-utbt.onrender.com
 
 3. Зайдите на https://movieportal-utbt.onrender.com/admin/login.php
 
-4. Попробуйте авторизоваться через Яндекс или Telegram
+4. Попробуйте авторизоваться через Яндекс ID
 
 ## Если не работает
 
-Проверьте логи в Render Dashboard → вашprofile Web Service → Logs
+Проверьте логи в Render Dashboard → ваш Web Service → Logs
 
 Возможные проблемы:
 - Не добавили callback URL в настройках Яндекс
-- Не настроили домен в BotFather
 - Render еще не задеплоил новый код

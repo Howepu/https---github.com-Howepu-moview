@@ -11,13 +11,9 @@ c:\labs\
 
  sql/                      # SQL скрипты миграций и настройки
     admin_setup.sql
-    telegram_oauth_setup.sql
-    vk_oauth_setup.sql
 
  scripts/                  # Утилитные скрипты (init, test, fix)
     init_admin.php
-    init_telegram_system.php
-    init_vk_system.php
     fix_admin_password.php
     test_db.php
     check_migrations.php

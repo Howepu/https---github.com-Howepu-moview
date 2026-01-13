@@ -168,7 +168,6 @@ $pageTitle = "MoviePortal - Помощь";
                         <p>Если вы не нашли ответ на свой вопрос, свяжитесь с нами:</p>
                         <ul>
                             <li>📧 Email: support@movieportal.ru</li>
-                            <li>💬 Telegram: @movieportal_support</li>
                         </ul>
                     </div>
                 </div>
