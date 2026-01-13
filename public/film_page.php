@@ -48,8 +48,8 @@ if (!$movie_id) {
     <link rel="preconnect" href="https://mc.yandex.ru" crossorigin>
     <link rel="dns-prefetch" href="https://mc.yandex.ru">
     
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/film_page_style.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/film_page_style.css">
     
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
@@ -218,8 +218,8 @@ if (!$movie_id) {
             </div>
         </div>
     </div>
-    <script src="assets/js/search.js"></script>
-    <script src="assets/js/loader.js"></script>
+    <script src="/assets/js/search.js"></script>
+    <script src="/assets/js/loader.js"></script>
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');

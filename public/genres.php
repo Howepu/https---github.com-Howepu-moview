@@ -23,7 +23,7 @@ $pageTitle = "MoviePortal - Жанры";
     <link rel="preconnect" href="https://mc.yandex.ru" crossorigin>
     <link rel="dns-prefetch" href="https://mc.yandex.ru">
     <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
     
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
@@ -100,8 +100,8 @@ $pageTitle = "MoviePortal - Жанры";
             </div>
         </div>
     </div>
-    <script src="assets/js/search.js"></script>
-    <script src="assets/js/loader.js"></script>
+    <script src="/assets/js/search.js"></script>
+    <script src="/assets/js/loader.js"></script>
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');

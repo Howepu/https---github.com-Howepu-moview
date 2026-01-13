@@ -41,7 +41,7 @@ if (!$director_id) {
     <!-- Preconnect для внешних ресурсов -->
     <link rel="preconnect" href="https://mc.yandex.ru" crossorigin>
     <link rel="dns-prefetch" href="https://mc.yandex.ru">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
     
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">

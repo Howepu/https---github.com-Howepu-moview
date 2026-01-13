@@ -32,7 +32,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="dns-prefetch" href="https://mc.yandex.ru">
     <link rel="dns-prefetch" href="https://avatars.mds.yandex.net">
     
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
     
     <!-- Yandex.Metrika counter - deferred loading -->
     <script type="text/javascript">
@@ -134,7 +134,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
-    <script src="assets/js/loader.js"></script>
+    <script src="/assets/js/loader.js"></script>
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');
