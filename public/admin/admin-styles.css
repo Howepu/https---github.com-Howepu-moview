@@ -146,7 +146,7 @@ body.login-page {
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2.5rem;
     margin-bottom: 4rem;
 }
@@ -653,16 +653,28 @@ textarea.form-control {
     }
     
     .admin-content {
-        padding: 1.5rem;
+        padding: 1rem;
+        overflow-x: hidden;
+        max-width: 100%;
+        box-sizing: border-box;
     }
     
     .admin-dashboard h2 {
-        font-size: 2rem;
-        margin-bottom: 2rem;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        word-wrap: break-word;
     }
     
     .stats-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
+        width: 100%;
+    }
+    
+    .stat-card {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 1rem;
         gap: 1rem;
     }
     
