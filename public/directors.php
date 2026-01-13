@@ -45,6 +45,7 @@ $pageTitle = "MoviePortal - Режиссеры";
     <meta property="og:type" content="website">
 </head>
 <body>
+    <div class="nav-overlay" id="navOverlay"></div>
     <div class="header">
         <div class="logo-container">
             <a href="main.php" class="logo" title="Вернуться на главную страницу">MoviePortal</a>
@@ -101,10 +102,20 @@ $pageTitle = "MoviePortal - Режиссеры";
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('.nav');
+        const navOverlay = document.getElementById('navOverlay');
 
+        // Открытие/закрытие меню
         menuToggle.addEventListener('click', () => {
             nav.classList.toggle('active');
             menuToggle.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+        });
+
+        // Закрытие меню при клике на overlay
+        navOverlay.addEventListener('click', () => {
+            nav.classList.remove('active');
+            menuToggle.classList.remove('active');
+            navOverlay.classList.remove('active');
         });
     </script>
 </body>

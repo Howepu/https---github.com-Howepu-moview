@@ -358,11 +358,20 @@ body.login-page {
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
+/* Responsive table wrapper */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem;
+}
+
 .admin-table th,
 .admin-table td {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid #e9ecef;
+    white-space: nowrap;
 }
 
 .admin-table th {
@@ -1486,10 +1495,29 @@ textarea.form-control {
     .table-responsive {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        border: 1px solid #e9ecef;
+        border-radius: 12px;
     }
     
     .admin-table {
-        min-width: 600px;
+        min-width: 800px;
+        font-size: 0.9rem;
+    }
+    
+    .admin-table th,
+    .admin-table td {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .table-actions {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .table-actions .btn {
+        width: 100%;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
     }
     
     /* Модальные окна на мобильных */

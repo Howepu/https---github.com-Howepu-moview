@@ -80,6 +80,25 @@ body {
     transition: transform 0.3s ease;
 }
 
+/* Overlay для мобильного меню */
+.nav-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.nav-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
 .nav ul {
     list-style: none;
     padding: 0;
@@ -514,33 +533,41 @@ body {
     
     .container {
         padding: 0 10px;
+        flex-direction: column;
     }
     
     .nav {
         position: fixed;
-        top: 60px;
-        left: -100%;
-        width: 250px;
-        height: calc(100vh - 60px);
-        z-index: 1000;
+        top: 0;
+        left: -280px;
+        width: 280px;
+        height: 100vh;
+        z-index: 1001;
         background: #fff;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        box-shadow: 2px 0 10px rgba(0,0,0,0.3);
         transition: left 0.3s ease;
         overflow-y: auto;
         padding: 20px;
+        padding-top: 80px;
     }
 
     .nav.active {
         left: 0;
     }
     
+    .nav-overlay.active {
+        display: block;
+        opacity: 1;
+    }
+    
     .main-content {
         width: 100%;
-        padding: 15px 0;
+        padding: 15px 10px;
     }
 
     .menu-toggle {
         display: flex;
+        z-index: 1002;
     }
 
     .genre-banners {
