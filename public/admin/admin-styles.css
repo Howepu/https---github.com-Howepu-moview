@@ -1507,17 +1507,19 @@ textarea.form-control {
 @media (max-width: 768px) {
     /* Скрываем заголовки и показываем карточки на мобильных */
     .admin-table {
-        display: block;
+        display: block !important;
         border: none;
+        box-shadow: none;
+        border-radius: 0;
     }
     
     /* Карточки для мобильных устройств */
     .admin-table tbody {
-        display: block;
+        display: block !important;
     }
     
     .admin-table tr {
-        display: block;
+        display: block !important;
         background: white;
         margin-bottom: 1rem;
         border-radius: 12px;
@@ -1526,48 +1528,53 @@ textarea.form-control {
         border: 1px solid #e9ecef;
     }
     
+    .admin-table tr:hover {
+        background: white;
+    }
+    
     .admin-table thead {
-        display: none;
+        display: none !important;
     }
     
     .admin-table td {
-        display: flex;
-        flex-direction: column;
-        text-align: left;
-        border: none;
-        padding: 0.75rem 0;
-        gap: 0.25rem;
+        display: block !important;
+        text-align: left !important;
+        border: none !important;
+        padding: 0.75rem 0 !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
     }
     
     .admin-table td::before {
         content: attr(data-label);
+        display: block;
         font-weight: 600;
         color: #6c757d;
-        font-size: 0.85rem;
+        font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        margin-bottom: 0.25rem;
     }
     
     .admin-table td:first-child {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #667eea;
-        border-bottom: 2px solid #e9ecef;
-        padding-bottom: 0.75rem;
-        margin-bottom: 0.5rem;
+        font-size: 1.2rem !important;
+        font-weight: 700 !important;
+        color: #667eea !important;
+        border-bottom: 2px solid #e9ecef !important;
+        padding-bottom: 0.75rem !important;
+        margin-bottom: 0.5rem !important;
     }
     
     .admin-table td:first-child::before {
         font-size: 0.75rem;
         color: #6c757d;
         font-weight: 500;
-        text-transform: uppercase;
     }
     
     .table-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.5rem !important;
         margin-top: 1rem;
         padding-top: 0.75rem;
         border-top: 2px solid #e9ecef;
@@ -1575,15 +1582,15 @@ textarea.form-control {
     }
     
     .table-actions::before {
-        display: none;
+        display: none !important;
     }
     
     .table-actions .btn {
-        width: 100%;
-        padding: 0.75rem;
-        font-size: 0.9rem;
-        white-space: normal;
-        word-wrap: break-word;
+        width: 100% !important;
+        padding: 0.75rem !important;
+        font-size: 0.9rem !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
     }
     
     /* Модальные окна на мобильных */
@@ -1643,25 +1650,45 @@ textarea.form-control {
         margin-bottom: 1.25rem;
     }
     
-    /* Таблицы на очень маленьких экранах */
-    .table-responsive {
-        margin: 0 -0.25rem 1rem;
-    }
-    
+    /* Таблицы-карточки остаются карточками */
     .admin-table {
-        font-size: 0.75rem;
-        min-width: 850px !important;
+        display: block !important;
+        font-size: 1rem !important;
+        min-width: auto !important;
+        width: 100% !important;
+        border: none;
     }
     
-    .admin-table th,
+    .admin-table tbody {
+        display: block !important;
+    }
+    
+    .admin-table tr {
+        display: block !important;
+    }
+    
+    .admin-table thead {
+        display: none !important;
+    }
+    
     .admin-table td {
-        padding: 0.5rem 0.35rem;
-        font-size: 0.75rem;
+        display: block !important;
+        padding: 0.75rem 0 !important;
+        font-size: 0.9rem !important;
+        white-space: normal !important;
+        text-align: left !important;
+        border: none !important;
+    }
+    
+    .table-actions {
+        display: flex !important;
+        flex-direction: column !important;
     }
     
     .table-actions .btn {
-        padding: 0.3rem 0.4rem;
-        font-size: 0.7rem;
+        width: 100% !important;
+        padding: 0.75rem !important;
+        font-size: 0.85rem !important;
     }
     
     /* Header кнопки */
@@ -1672,18 +1699,13 @@ textarea.form-control {
     
     /* Main content */
     .main-content {
-        padding: 0.5rem 0.25rem;
+        padding: 1rem;
         overflow-x: hidden;
     }
     
     .main-content h2 {
-        font-size: 1.25rem;
+        font-size: 1.4rem;
         margin-bottom: 1rem;
-    }
-    
-    .table-responsive::after {
-        font-size: 0.75rem;
-        padding: 0.5rem;
     }
 }
     
