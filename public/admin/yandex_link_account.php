@@ -84,7 +84,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error_message = 'Неверный логин или пароль администратора';
             }
         } catch (PDOException $e) {
-            $error_message = 'Ошибка подключения к базе данных';
+            error_log("Yandex Link Error: " . $e->getMessage());
+            $error_message = 'Ошибка подключения к базе данных: ' . $e->getMessage();
+        } catch (Exception $e) {
+            error_log("Yandex Link Error: " . $e->getMessage());
+            $error_message = 'Произошла ошибка: ' . $e->getMessage();
         }
     }
 }
