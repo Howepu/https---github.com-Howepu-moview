@@ -1,6 +1,9 @@
 <?php
 require_once 'config.php';
 
+// Установка Last-Modified заголовка
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime(__FILE__)) . ' GMT');
+
 // Получаем ID жанра из GET-параметра
 $genre_id = isset($_GET['genre_id']) ? (int)$_GET['genre_id'] : null;
 
@@ -36,6 +39,9 @@ if (!$genre_id) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoviePortal - Фильмы жанра <?php echo htmlspecialchars($genre_name); ?></title>
+    <!-- Preconnect для внешних ресурсов -->
+    <link rel="preconnect" href="https://mc.yandex.ru" crossorigin>
+    <link rel="dns-prefetch" href="https://mc.yandex.ru">
     <link rel="stylesheet" href="assets/css/styles.css">
     
     <!-- Yandex.Metrika counter -->
@@ -68,10 +74,10 @@ if (!$genre_id) {
                 <li><a href="films.php">Фильмы</a></li>
                 <li><a href="genres.php">Жанры</a></li>
                 <li><a href="directors.php">Режиссёры</a></li>
-                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
+                <li><a href="admin/index.php" style="color: #ff4444; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
-        <div class="main-content">
+        <main class="main-content">
             <nav class="breadcrumbs" aria-label="Навигация">
                 <ol style="list-style: none; padding-left: 0;">
                     <li><a href="main.php" title="Главная страница">Главная</a></li>
@@ -88,8 +94,11 @@ if (!$genre_id) {
                         <div class="movie-card">
                             <a href="film_page.php?movie_id=<?php echo $movie['id']; ?>">
                                 <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
-                                     alt="<?php echo htmlspecialchars($movie['title']); ?>" 
-                                     width="120" height="180"
+                                     alt="Постер фильма <?php echo htmlspecialchars($movie['title']); ?>" 
+                                     width="200" 
+                                     height="300"
+                                     loading="lazy"
+                                     decoding="async"
                                      onerror="this.src='https://via.placeholder.com/120x180?text=Нет+постера'">
                                 <div class="movie-info">
                                     <h3><?php echo htmlspecialchars($movie['title']); ?></h3>
@@ -101,7 +110,7 @@ if (!$genre_id) {
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
-        </div>
+        </main>
     </div>
     <div class="footer">
         <div class="footer-logo">

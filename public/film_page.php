@@ -43,6 +43,11 @@ if (!$movie_id) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?php echo $movie ? htmlspecialchars($movie['title'] . ' (' . $movie['year'] . ') - ' . ($movie['description'] ?? 'Информация о фильме')) : 'Фильм не найден'; ?>">
     <title>MoviePortal - <?php echo $movie ? htmlspecialchars($movie['title'] . " (" . $movie['year'] . ")") : "Фильм не найден"; ?></title>
+    
+    <!-- Preconnect для внешних ресурсов -->
+    <link rel="preconnect" href="https://mc.yandex.ru" crossorigin>
+    <link rel="dns-prefetch" href="https://mc.yandex.ru">
+    
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/film_page_style.css">
     
@@ -125,10 +130,10 @@ if (!$movie_id) {
                 <li><a href="genres.php" title="Просмотр фильмов по жанрам">Жанры</a></li>
                 <li><a href="directors.php" title="Список режиссёров">Режиссёры</a></li>
                 <li><a href="help.php" title="Справка и помощь">Помощь</a></li>
-                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
+                <li><a href="admin/index.php" style="color: #ff4444; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
             </ul>
         </nav>
-        <div class="main-content">
+        <main class="main-content">
             <?php if (!$movie): ?>
                 <div class="error-page">
                     <div class="error-icon">🎬</div>
@@ -155,8 +160,11 @@ if (!$movie_id) {
                     <div class="movie-info">
                         <div class="movie-poster">
                             <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
-                                 alt="<?php echo htmlspecialchars($movie['title']); ?>" 
-                                 width="300" height="450"
+                                 alt="Постер фильма <?php echo htmlspecialchars($movie['title']); ?>" 
+                                 width="300" 
+                                 height="450"
+                                 fetchpriority="high"
+                                 decoding="async"
                                  onerror="this.src='https://via.placeholder.com/300x450?text=Нет+постера'">
                         </div>
                         <div class="movie-details">
@@ -200,7 +208,7 @@ if (!$movie_id) {
                     </div>
                 </div>
             <?php endif; ?>
-        </div>
+        </main>
     </div>
     <div class="footer">
         <div class="footer-logo">

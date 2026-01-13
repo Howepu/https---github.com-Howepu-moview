@@ -1,5 +1,9 @@
 <?php
 require_once 'config.php';
+
+// Установка Last-Modified заголовка
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime(__FILE__)) . ' GMT');
+
 $pageTitle = "MoviePortal - Помощь";
 ?>
 
@@ -9,6 +13,9 @@ $pageTitle = "MoviePortal - Помощь";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($pageTitle) ?></title>
+    <!-- Preconnect для внешних ресурсов -->
+    <link rel="preconnect" href="https://mc.yandex.ru" crossorigin>
+    <link rel="dns-prefetch" href="https://mc.yandex.ru">
     <link rel="stylesheet" href="assets/css/styles.css">
     
     <!-- Yandex.Metrika counter -->
@@ -50,10 +57,10 @@ $pageTitle = "MoviePortal - Помощь";
                 <li><a href="genres.php">Жанры</a></li>
                 <li><a href="directors.php">Режиссёры</a></li>
                 <li><a href="help.php" class="active">Помощь</a></li>
-                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;">Админ-панель</a></li>
+                <li><a href="admin/index.php" style="color: #ff4444; font-weight: bold;">Админ-панель</a></li>
             </ul>
         </div>
-        <div class="main-content">
+        <main class="main-content">
             <div class="help-page">
                 <h1>📚 Справка и помощь</h1>
                 
@@ -172,7 +179,7 @@ $pageTitle = "MoviePortal - Помощь";
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
     <div class="footer">
         <div class="footer-logo">

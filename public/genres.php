@@ -19,6 +19,9 @@ $pageTitle = "MoviePortal - Жанры";
     <meta name="description" content="Жанры фильмов - выберите жанр и найдите интересные фильмы.">
     <meta name="keywords" content="жанры фильмов, категории фильмов, кино по жанрам">
     <title><?= htmlspecialchars($pageTitle) ?></title>
+    <!-- Preconnect для внешних ресурсов -->
+    <link rel="preconnect" href="https://mc.yandex.ru" crossorigin>
+    <link rel="dns-prefetch" href="https://mc.yandex.ru">
     <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
     <link rel="stylesheet" href="assets/css/styles.css">
     
@@ -66,10 +69,10 @@ $pageTitle = "MoviePortal - Жанры";
                 <li><a href="genres.php" class="active" title="Просмотр фильмов по жанрам">Жанры</a></li>
                 <li><a href="directors.php" title="Список режиссёров">Режиссёры</a></li>
                 <li><a href="help.php" title="Справка и помощь">Помощь</a></li>
-                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
+                <li><a href="admin/index.php" style="color: #ff4444; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
             </ul>
         </nav>
-        <div class="main-content">
+        <main class="main-content">
             <div class="category-toggle">
                 <a href="films.php" class="category-btn">ФИЛЬМЫ</a>
                 <a href="genres.php" class="category-btn active">ЖАНРЫ</a>
@@ -87,7 +90,7 @@ $pageTitle = "MoviePortal - Жанры";
                 </a>
                 <?php endforeach; ?>
             </div>
-        </div>
+        </main>
     </div>
     <div class="footer">
         <div class="footer-logo">

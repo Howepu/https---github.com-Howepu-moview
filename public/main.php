@@ -25,18 +25,28 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="keywords" content="фильмы, кино, режиссёры, жанры, каталог фильмов">
     <title>MoviePortal - Главная страница</title>
     <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
+    
+    <!-- Preconnect для внешних ресурсов -->
+    <link rel="preconnect" href="https://mc.yandex.ru" crossorigin>
+    <link rel="preconnect" href="https://avatars.mds.yandex.net" crossorigin>
+    <link rel="dns-prefetch" href="https://mc.yandex.ru">
+    <link rel="dns-prefetch" href="https://avatars.mds.yandex.net">
+    
     <link rel="stylesheet" href="assets/css/styles.css">
     
-    <!-- Yandex.Metrika counter -->
+    <!-- Yandex.Metrika counter - deferred loading -->
     <script type="text/javascript">
-        (function(m,e,t,r,i,k,a){
-            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();
-            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106226950', 'ym');
-
-        ym(106226950, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+        // Отложенная загрузка Яндекс.Метрики для улучшения производительности
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                (function(m,e,t,r,i,k,a){
+                    m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+                    m[i].l=1*new Date();
+                    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.defer=1,k.src=r,a.parentNode.insertBefore(k,a)
+                })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106226950', 'ym');
+                ym(106226950, 'init', {ssr:true, webvisor:false, clickmap:true, trackLinks:true});
+            }, 2000);
+        });
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/106226950" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
@@ -74,16 +84,21 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <li><a href="genres.php" title="Просмотр фильмов по жанрам">Жанры</a></li>
                 <li><a href="directors.php" title="Список режиссёров">Режиссёры</a></li>
                 <li><a href="help.php" title="Справка и помощь">Помощь</a></li>
-                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
+                <li><a href="admin/index.php" style="color: #ff4444; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
             </ul>
         </nav>
-        <div class="main-content">
+        <main class="main-content">
             <div class="banner">
                 <div class="banner-text">
                     <h2>Онлайн-кинематер</h2>
                 </div>
                 <div class="banner-image">
-                    <img src="https://avatars.mds.yandex.net/i?id=621a460638ec6acddeaae88ce185205b_l-4011414-images-thumbs&n=13" height="200" width="500">
+                    <img src="https://avatars.mds.yandex.net/i?id=621a460638ec6acddeaae88ce185205b_l-4011414-images-thumbs&n=13" 
+                         alt="Баннер MoviePortal" 
+                         width="500" 
+                         height="200"
+                         fetchpriority="high"
+                         decoding="async">
                 </div>
             </div>
             <div class="movie-grid">
@@ -95,8 +110,11 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <a href="film_page.php?movie_id=<?php echo $movie['id']; ?>" 
                                title="Смотреть информацию о фильме <?php echo htmlspecialchars($movie['title']); ?>">
                                 <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" 
-                                     alt="<?php echo htmlspecialchars($movie['title']); ?>" 
-                                     width="200" height="300"
+                                     alt="Постер фильма <?php echo htmlspecialchars($movie['title']); ?>" 
+                                     width="200" 
+                                     height="300"
+                                     loading="lazy"
+                                     decoding="async"
                                      onerror="this.src='https://via.placeholder.com/200x300?text=Нет+постера'">
                                 <p><?php echo htmlspecialchars($movie['title']); ?></p>
                             </a>
@@ -104,7 +122,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
-        </div>
+        </main>
     </div>
     <div class="footer">
         <div class="footer-logo">
@@ -149,8 +167,12 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             searchResults.innerHTML = data.results.map(movie => `
                                 <a href="film_page.php?movie_id=${movie.id}" class="search-result-item">
                                     <img src="${movie.poster_url}" 
-                                         alt="${movie.title}" 
+                                         alt="Постер фильма ${movie.title}" 
                                          class="search-result-poster"
+                                         width="50"
+                                         height="75"
+                                         loading="lazy"
+                                         decoding="async"
                                          onerror="this.src='https://via.placeholder.com/50x75?text=No+Image'">
                                     <div class="search-result-info">
                                         <div class="search-result-title">${movie.title}</div>

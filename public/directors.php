@@ -19,6 +19,9 @@ $pageTitle = "MoviePortal - Режиссеры";
     <meta name="description" content="Список режиссеров - изучайте фильмографию известных кинорежиссеров.">
     <meta name="keywords" content="режиссеры, кинорежиссеры, фильмография">
     <title><?= htmlspecialchars($pageTitle) ?></title>
+    <!-- Preconnect для внешних ресурсов -->
+    <link rel="preconnect" href="https://mc.yandex.ru" crossorigin>
+    <link rel="dns-prefetch" href="https://mc.yandex.ru">
     <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
     <link rel="stylesheet" href="assets/css/styles.css">
     
@@ -66,10 +69,10 @@ $pageTitle = "MoviePortal - Режиссеры";
                 <li><a href="genres.php" title="Просмотр фильмов по жанрам">Жанры</a></li>
                 <li><a href="directors.php" class="active" title="Список режиссёров">Режиссёры</a></li>
                 <li><a href="help.php" title="Справка и помощь">Помощь</a></li>
-                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
+                <li><a href="admin/index.php" style="color: #ff4444; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
             </ul>
         </nav>
-        <div class="main-content">
+        <main class="main-content">
             <h1>Популярные режиссеры</h1>
             <div class="results-count-simple">Всего режиссеров: <strong><?= count($directors) ?></strong></div>
             <div class="genre-banners">
@@ -84,7 +87,7 @@ $pageTitle = "MoviePortal - Режиссеры";
                 </a>
                 <?php endforeach; ?>
             </div>
-        </div>
+        </main>
     </div>
     <div class="footer">
         <div class="footer-logo">

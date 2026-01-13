@@ -190,6 +190,118 @@ menuToggle.addEventListener('click', () => {
 - `alt` атрибуты для всех изображений
 - Контрастность цветов соответствует **WCAG AA**
 
+### **5. Соответствие чеклисту требований**
+
+**Показать конкретные примеры из кода:**
+
+#### **Пример 1: Семантические теги**
+```html
+<nav class="nav" aria-label="Основная навигация">
+    <ul>
+        <li><a href="main.php" title="Главная страница">Главная</a></li>
+        <li><a href="films.php" title="Каталог всех фильмов">Фильмы</a></li>
+    </ul>
+</nav>
+
+<article class="movie-card">
+    <a href="film_page.php?movie_id=123">
+        <img src="poster.jpg" alt="Постер фильма Начало" width="200" height="300">
+        <p>Начало</p>
+    </a>
+</article>
+```
+
+**Объяснение:**
+> "Используются семантические теги `<nav>` для навигации, `<article>` для карточек фильмов вместо безликих `<div>`. Добавлены атрибуты `aria-label` для скринридеров, `title` для подсказок, обязательные `alt` для изображений и размеры `width/height` для оптимизации загрузки."
+
+#### **Пример 2: Адаптивная верстка**
+```css
+/* Mobile First подход */
+.movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+@media (min-width: 768px) {
+    .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+```
+
+**Объяснение:**
+> "Реализован **Mobile First** подход - сначала стили для смартфонов, затем через медиа-запросы расширяются для планшетов (768px) и десктопов (1024px). Grid автоматически адаптируется под ширину экрана."
+
+#### **Пример 3: Правильная структура заголовков**
+```html
+<h1>MoviePortal - Главная страница</h1>
+<section>
+    <h2>Популярные фильмы</h2>
+    <article>
+        <h3>Начало (2010)</h3>
+        <p>Описание фильма...</p>
+    </article>
+</section>
+```
+
+**Объяснение:**
+> "Соблюдается **иерархия заголовков** h1→h2→h3 без пропусков. На странице всегда один `<h1>`, затем разделы с `<h2>`, внутри них подразделы с `<h3>`. Это важно для SEO и доступности."
+
+#### **Пример 4: Атрибуты для ссылок и изображений**
+```html
+<!-- Все ссылки с title -->
+<a href="film_page.php?movie_id=1" 
+   title="Смотреть информацию о фильме Начало">
+   Подробнее
+</a>
+
+<!-- Все изображения с alt и fallback -->
+<img src="<?= htmlspecialchars($movie['poster_url']) ?>" 
+     alt="<?= htmlspecialchars($movie['title']) ?>" 
+     width="200" height="300"
+     onerror="this.src='https://via.placeholder.com/200x300?text=Нет+постера'">
+```
+
+**Объяснение:**
+> "Каждая ссылка имеет понятный `title` для подсказки. У каждого изображения есть `alt` с описанием контента и обработчик `onerror` - если постер не загрузился, показывается заглушка. Размеры указаны явно для предотвращения layout shift."
+
+#### **Пример 5: Внутренние и внешние ссылки**
+```html
+<!-- Внутренние ссылки - относительные -->
+<a href="films.php">Каталог фильмов</a>
+<a href="../main.php">Вернуться на главную</a>
+
+<!-- Внешние ссылки - абсолютные, новое окно -->
+<a href="https://www.imdb.com" 
+   target="_blank" 
+   rel="noopener noreferrer"
+   title="Открыть IMDb в новой вкладке">
+   IMDb
+</a>
+```
+
+**Объяснение:**
+> "Внутренние ссылки используют **относительные пути** для портативности. Внешние ссылки открываются в новом окне (`target="_blank"`) с обязательным `rel="noopener noreferrer"` для **безопасности** - это предотвращает доступ нового окна к объекту `window.opener` родительской страницы."
+
+#### **Пример 6: Уникальные метатеги**
+```html
+<!-- main.php -->
+<title>MoviePortal - Главная страница</title>
+<meta name="description" content="MoviePortal - ваш путеводитель в мире кино. Каталог фильмов, режиссёров и жанров.">
+
+<!-- film_page.php -->
+<title><?= htmlspecialchars($movie['title']) ?> (<?= $movie['year'] ?>) - MoviePortal</title>
+<meta name="description" content="Информация о фильме <?= htmlspecialchars($movie['title']) ?>. Режиссёр: <?= htmlspecialchars($movie['director_name']) ?>.">
+```
+
+**Объяснение:**
+> "Каждая страница имеет **уникальные** `<title>` и `<meta name="description">`. На главной общее описание сайта, на странице фильма - название, год и режиссер. Это критично для **SEO** и корректного отображения в поисковой выдаче."
+
 **Переход:**
 > "После верстки перешел к настройке окружения разработки."
 
@@ -786,7 +898,9 @@ $avatar = "https://avatars.yandex.net/get-yapic/{$avatar_id}/islands-200";
 20. ✅ **Переменные окружения** - конфигурация без хардкода
 21. ✅ **Автоматические миграции БД** - таблицы создаются автоматически
 
-### **КОД: Примеры реализации**
+### **КОД: Примеры реализации по чеклисту**
+
+#### **Пример 1: robots.txt и sitemap.xml**
 
 **Показать robots.txt:**
 ```txt
@@ -794,36 +908,146 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /includes/
-Disallow: /scripts/
+Disallow: /errors/
 
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://movieportal-utbt.onrender.com/static/sitemap.xml
+```
+
+**Показать sitemap.xml:**
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://movieportal-utbt.onrender.com/main.php</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://movieportal-utbt.onrender.com/films.php</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>
 ```
 
 **Объяснение:**
-> "В robots.txt разрешено индексировать весь сайт кроме служебных директорий - админки, includes, scripts. Указан путь к sitemap."
+> "В robots.txt **запрещена индексация** служебных директорий - админки, includes, errors. Разрешено индексировать всё остальное. В sitemap.xml перечислены все основные страницы с указанием **приоритета** (priority) и **частоты обновления** (changefreq)."
 
-**Показать Open Graph:**
+#### **Пример 2: Open Graph метатеги**
+
+**Показать код из film_page.php:**
 ```html
-<meta property="og:title" content="<?= htmlspecialchars($movie['title']) ?>">
-<meta property="og:description" content="<?= htmlspecialchars($movie['description']) ?>">
-<meta property="og:image" content="<?= $movie['poster_url'] ?>">
+<!-- Open Graph для соцсетей -->
 <meta property="og:type" content="video.movie">
+<meta property="og:title" content="<?= htmlspecialchars($movie['title']) ?> (<?= $movie['year'] ?>)">
+<meta property="og:description" content="Режиссёр: <?= htmlspecialchars($movie['director_name']) ?>. <?= htmlspecialchars($movie['description'] ?? '') ?>">
+<meta property="og:image" content="<?= htmlspecialchars($movie['poster_url']) ?>">
+<meta property="og:url" content="https://movieportal-utbt.onrender.com<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+
+<!-- Schema.org микроразметка -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Movie",
+    "name": "<?= htmlspecialchars($movie['title']) ?>",
+    "datePublished": "<?= $movie['year'] ?>",
+    "director": {
+        "@type": "Person",
+        "name": "<?= htmlspecialchars($movie['director_name']) ?>"
+    }
+}
+</script>
 ```
 
 **Объяснение:**
-> "Open Graph теги обеспечивают красивые превью при репосте в соцсети. Указываются название, описание, постер и тип контента."
+> "Open Graph теги обеспечивают **красивые превью** при репосте в соцсети. Указывается тип контента `video.movie`, название с годом, описание с режиссёром, постер и полный URL. Дополнительно добавлена **Schema.org микроразметка** в формате JSON-LD - это помогает поисковикам Google правильно понять структуру данных о фильме."
+
+#### **Пример 3: Семантические URI (ЧПУ)**
+
+**Показать nginx конфигурацию:**
+```nginx
+# Nginx rewrite rules
+location / {
+    # Semantic URLs for films
+    rewrite ^/film/([0-9]+)$ /film_page.php?movie_id=$1 last;
+    rewrite ^/genre/([0-9]+)$ /films_by_genres.php?genre_id=$1 last;
+    rewrite ^/director/([0-9]+)$ /films_by_directors.php?director_id=$1 last;
+    
+    try_files $uri $uri/ @notfound;
+}
+```
+
+**Показать использование в коде:**
+```html
+<!-- Было: ugly URL -->
+<a href="film_page.php?movie_id=123">Подробнее</a>
+
+<!-- Стало: semantic URL (ЧПУ) -->
+<a href="/film/123" title="Смотреть информацию о фильме">Подробнее</a>
+```
+
+**Объяснение:**
+> "В Nginx настроены **rewrite правила** для преобразования красивых URL в реальные пути файлов. Вместо `film_page.php?movie_id=123` пользователь видит `/film/123` - это называется **ЧПУ** (человекопонятный URL). Такие URL лучше для **SEO**, проще запоминаются и выглядят профессиональнее."
+
+#### **Пример 4: Кэширование и Gzip в Nginx**
+
+**Показать конфигурацию:**
+```nginx
+# Gzip compression
+gzip on;
+gzip_vary on;
+gzip_min_length 1000;
+gzip_types text/plain text/css application/json application/javascript text/xml application/xml text/javascript image/svg+xml;
+
+# Cache static files
+location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {
+    expires 1y;
+    add_header Cache-Control "public, immutable";
+    access_log off;
+}
+```
+
+**Объяснение:**
+> "Настроено **Gzip сжатие** для текстовых файлов - HTML, CSS, JS, JSON, SVG. Это экономит **до 70% трафика**. Для статических файлов (картинки, шрифты, стили) установлен заголовок `expires 1y` - браузер кэширует их на **1 год**. При повторном посещении сайта они загружаются из кэша браузера мгновенно. `access_log off` отключает логирование статики для экономии ресурсов."
+
+#### **Пример 5: Last-Modified заголовок**
+
+**Показать PHP код:**
+```php
+// main.php
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime(__FILE__)) . ' GMT');
+```
+
+**Объяснение:**
+> "Каждая динамическая страница отправляет HTTP заголовок `Last-Modified` с датой последнего изменения файла. Это позволяет браузеру и поисковикам понять, **обновилась ли страница** с прошлого визита. Если не обновилась - браузер может использовать кэшированную версию."
+
+#### **Пример 6: Canonical URL**
+
+**Показать HTML:**
+```html
+<!-- main.php -->
+<link rel="canonical" href="https://movieportal-utbt.onrender.com/main.php">
+
+<!-- film_page.php -->
+<link rel="canonical" href="https://movieportal-utbt.onrender.com<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+```
+
+**Объяснение:**
+> "Canonical URL указывает поисковикам **основной адрес** страницы. Это важно, если одна страница доступна по нескольким URL (например, с параметрами сортировки). Canonical говорит: 'Вот главный URL, индексируй именно его, остальные - дубли'."
 
 ### **Что еще можно улучшить:**
 
 **Перечислить кратко:**
 > "Есть направления для дальнейшего развития:"
-- Schema.org микроразметка для фильмов
-- Автотесты PHPUnit
-- Версия для печати через @media print
-- CI/CD pipeline для автодеплоя
+- **REST API** с JSON для мобильного приложения
+- **Автотесты** PHPUnit для backend, Selenium для UI
+- **Redis** для кэширования частых запросов
+- **CI/CD pipeline** GitHub Actions для автодеплоя
+- **WebP изображения** для ещё большей оптимизации
+- **Service Worker** для PWA и офлайн-режима
 
 **Итог:**
-> "Главное - проект соответствует **основным стандартам** современной веб-разработки: безопасность, производительность, SEO, доступность."
+> "Главное - проект соответствует **основным стандартам** современной веб-разработки: безопасность, производительность, SEO, доступность. Реализовано **43 пункта** из чеклиста полностью, остальные требуют минимальных доработок или проверки на продакшене."
 
 **Переход:**
 > "Подведем итоги проделанной работы."

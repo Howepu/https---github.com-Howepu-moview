@@ -158,6 +158,9 @@ if ($genre_id && $selected_genre_name) {
     <meta name="description" content="Каталог фильмов - смотрите полный список фильмов с рейтингами, жанрами и информацией о режиссерах.">
     <meta name="keywords" content="каталог фильмов, список фильмов, рейтинг фильмов, кино">
     <title><?= htmlspecialchars($pageTitle) ?></title>
+    <!-- Preconnect для внешних ресурсов -->
+    <link rel="preconnect" href="https://mc.yandex.ru" crossorigin>
+    <link rel="dns-prefetch" href="https://mc.yandex.ru">
     <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
     <link rel="stylesheet" href="assets/css/styles.css">
     
@@ -205,10 +208,10 @@ if ($genre_id && $selected_genre_name) {
                 <li><a href="genres.php" title="Просмотр фильмов по жанрам">Жанры</a></li>
                 <li><a href="directors.php" title="Список режиссёров">Режиссёры</a></li>
                 <li><a href="help.php" title="Справка и помощь">Помощь</a></li>
-                <li><a href="admin/index.php" style="color: #ff6b6b; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
+                <li><a href="admin/index.php" style="color: #ff4444; font-weight: bold;" title="Панель администратора">Админ-панель</a></li>
             </ul>
         </nav>
-        <div class="main-content">
+        <main class="main-content">
             <div class="category-toggle">
                 <a href="films.php" class="category-btn active">ФИЛЬМЫ</a>
                 <a href="genres.php" class="category-btn">ЖАНРЫ</a>
@@ -267,8 +270,11 @@ if ($genre_id && $selected_genre_name) {
                                 <div class="movie-rating-badge">★ <?= number_format($movie['rating'], 1) ?></div>
                             <?php endif; ?>
                             <img src="<?= htmlspecialchars($movie['poster_url']) ?>" 
-                                 alt="<?= htmlspecialchars($movie['title']) ?>" 
-                                 width="120" height="180">
+                                 alt="Постер фильма <?= htmlspecialchars($movie['title']) ?>" 
+                                 width="200" 
+                                 height="300"
+                                 loading="lazy"
+                                 decoding="async"
                             <div class="movie-info">
                                 <h3><?= htmlspecialchars($movie['title']) ?></h3>
                                 <p><?= htmlspecialchars($movie['year']) ?> | <?= htmlspecialchars($movie['duration']) ?> мин</p>
@@ -353,7 +359,7 @@ if ($genre_id && $selected_genre_name) {
                 </div>
             </div>
             <?php endif; ?>
-        </div>
+        </main>
     </div>
     <div class="footer">
         <div class="footer-logo">

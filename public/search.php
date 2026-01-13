@@ -1,6 +1,9 @@
 <?php
 require_once 'config.php';
 
+// Установка Last-Modified заголовка
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime(__FILE__)) . ' GMT');
+
 header('Content-Type: application/json');
 
 $query = isset($_GET['q']) ? trim($_GET['q']) : '';

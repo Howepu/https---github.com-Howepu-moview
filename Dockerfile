@@ -8,8 +8,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Включаем mod_rewrite для Apache
-RUN a2enmod rewrite
+# Включаем mod_rewrite, mod_headers и mod_deflate для Apache
+RUN a2enmod rewrite headers deflate
 
 # Копируем конфигурацию Apache
 COPY docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
