@@ -3,7 +3,15 @@ body {
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     min-height: 100vh;
     margin: 0;
+    padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
 /* Принудительные стили для страниц входа и регистрации */
@@ -526,6 +534,10 @@ textarea.form-control {
         flex-direction: column;
         gap: 0.75rem;
         text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 0;
+        border-radius: 0;
     }
     
     .admin-logo h1 {
@@ -537,7 +549,7 @@ textarea.form-control {
         order: 3;
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 0.5rem;
     }
     
