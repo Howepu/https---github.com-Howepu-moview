@@ -622,6 +622,22 @@ body {
         font-size: 16px;
     }
     
+    .movie-info {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .movie-info h3 {
+        font-size: 1.1rem;
+        margin: 0 0 8px 0;
+    }
+    
+    .movie-info p {
+        font-size: 0.9rem;
+        margin: 4px 0;
+        color: #666;
+    }
+    
     .banner {
         flex-direction: column;
         padding: 20px 15px;

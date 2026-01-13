@@ -275,7 +275,7 @@ if ($genre_id && $selected_genre_name) {
                                  width="200" 
                                  height="300"
                                  loading="lazy"
-                                 decoding="async"
+                                 decoding="async">
                             <div class="movie-info">
                                 <h3><?= htmlspecialchars($movie['title']) ?></h3>
                                 <p><?= htmlspecialchars($movie['year']) ?> | <?= htmlspecialchars($movie['duration']) ?> мин</p>
