@@ -26,7 +26,20 @@ function runDatabaseMigrations($pdo) {
         ");
         $adminTableExists = ($stmt->fetchColumn() > 0);
         
-        if ($mainTablesExist && $adminTableExists) {
+        // Проверяем наличие OAuth колонок в admin_users
+        $oauthColumnsExist = false;
+        if ($adminTableExists) {
+            $stmt = $pdo->query("
+                SELECT column_name 
+                FROM information_schema.columns 
+                WHERE table_schema = 'public' 
+                AND table_name = 'admin_users' 
+                AND column_name IN ('yandex_id', 'telegram_id', 'yandex_login')
+            ");
+            $oauthColumnsExist = ($stmt->rowCount() >= 3);
+        }
+        
+        if ($mainTablesExist && $adminTableExists && $oauthColumnsExist) {
             return ['success' => true, 'message' => 'База данных уже инициализирована', 'skipped' => true];
         }
         
@@ -77,6 +90,33 @@ function runDatabaseMigrations($pdo) {
                 ON CONFLICT (username) DO NOTHING
             ");
             error_log("MoviePortal: Таблица admin_users создана!");
+        } elseif ($adminTableExists && !$oauthColumnsExist) {
+            // Таблица существует, но без OAuth колонок - добавляем их
+            error_log("MoviePortal: Добавляем OAuth колонки в admin_users...");
+            
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS telegram_id BIGINT UNIQUE");
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS telegram_username VARCHAR(255)");
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS telegram_first_name VARCHAR(255)");
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS telegram_last_name VARCHAR(255)");
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS telegram_photo_url VARCHAR(500)");
+            
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS yandex_id VARCHAR(255) UNIQUE");
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS yandex_login VARCHAR(255)");
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS yandex_first_name VARCHAR(255)");
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS yandex_last_name VARCHAR(255)");
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS yandex_display_name VARCHAR(255)");
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS yandex_avatar_url VARCHAR(500)");
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS yandex_access_token VARCHAR(255)");
+            
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS vk_id BIGINT UNIQUE");
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS vk_access_token VARCHAR(255)");
+            $pdo->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS vk_avatar_url VARCHAR(500)");
+            
+            // Создаем индексы
+            $pdo->exec("CREATE INDEX IF NOT EXISTS idx_admin_telegram_id ON admin_users(telegram_id)");
+            $pdo->exec("CREATE INDEX IF NOT EXISTS idx_admin_yandex_id ON admin_users(yandex_id)");
+            
+            error_log("MoviePortal: OAuth колонки добавлены!");
         }
         
         // Если основные таблицы уже есть, пропускаем их создание

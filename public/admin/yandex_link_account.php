@@ -46,8 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             yandex_first_name = ?,
                             yandex_last_name = ?,
                             yandex_display_name = ?,
-                            yandex_real_name = ?,
-                            yandex_email = ?,
                             yandex_avatar_url = ?,
                             yandex_access_token = ?,
                             last_login = CURRENT_TIMESTAMP
@@ -57,12 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $update_stmt->execute([
                         $yandex_data['id'],
                         $yandex_data['login'],
-                        $yandex_data['first_name'],
-                        $yandex_data['last_name'],
-                        $yandex_data['display_name'],
-                        $yandex_data['real_name'],
-                        $yandex_data['email'],
-                        $yandex_data['avatar_url'],
+                        $yandex_data['first_name'] ?? '',
+                        $yandex_data['last_name'] ?? '',
+                        $yandex_data['display_name'] ?? '',
+                        $yandex_data['avatar_url'] ?? null,
                         $yandex_data['access_token'],
                         $admin_user['id']
                     ]);
