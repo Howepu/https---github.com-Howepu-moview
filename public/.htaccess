@@ -40,6 +40,14 @@
     RewriteEngine On
     RewriteBase /
     
+    # Принудительный HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Редирект www на non-www (или наоборот - выбрать один вариант)
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+    
     # Редирект с index.php на main.php
     RewriteRule ^index\.php$ main.php [R=301,L]
     
