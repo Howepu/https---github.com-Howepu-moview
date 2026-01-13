@@ -2,9 +2,15 @@
 // Конфигурация Яндекс ID OAuth
 // ВАЖНО: В реальном проекте эти данные должны храниться в переменных окружения!
 
-define('YANDEX_CLIENT_ID', '0a05754ab8594f6a97437159055427ee'); // Замените на ID вашего приложения
-define('YANDEX_CLIENT_SECRET', '117914f90f964c09ae9920f5ed705044'); // Замените на секретный ключ приложения
-define('YANDEX_REDIRECT_URI', 'http://127.0.0.1/admin/yandex_callback.php'); // URL обратного вызова
+define('YANDEX_CLIENT_ID', '0a05754ab8594f6a97437159055427ee');
+define('YANDEX_CLIENT_SECRET', '117914f90f964c09ae9920f5ed705044');
+
+// Автоматическое определение Callback URL на основе домена
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+            (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') || 
+            $_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'];
+define('YANDEX_REDIRECT_URI', $protocol . '://' . $host . '/admin/yandex_callback.php');
 
 // URL для авторизации через Яндекс ID
 function getYandexAuthUrl() {
