@@ -108,24 +108,33 @@ $pageTitle = "Управление жанрами - Админ-панель";
 <body>
     <div class="admin-header">
         <div class="admin-logo">
-            <h1>Управление жанрами</h1>
+            <h1>Жанры</h1>
+        </div>
+        <div class="menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
         <div class="admin-nav">
-            <span class="admin-user">Добро пожаловать, <?= htmlspecialchars($_SESSION['admin_username']) ?>!</span>
-            <a href="index.php" class="btn btn-secondary">Назад к панели</a>
-            <a href="../main.php" class="btn btn-secondary">На сайт</a>
+            <span class="admin-user"><?= htmlspecialchars($_SESSION['admin_username']) ?></span>
+            <a href="index.php" class="btn btn-secondary">Панель</a>
+            <a href="../main.php" class="btn btn-secondary">Сайт</a>
             <a href="?action=logout" class="btn btn-danger">Выйти</a>
         </div>
     </div>
 
     <div class="admin-container">
-        <div class="admin-sidebar">
+        <div class="admin-sidebar" id="mobileSidebar">
+            <div class="mobile-menu-header">
+                <h3 style="margin: 0; color: #667eea;">Меню</h3>
+                <button class="mobile-menu-close" onclick="toggleMobileMenu()">✕</button>
+            </div>
             <nav class="admin-menu">
                 <ul>
-                    <li><a href="index.php">Главная</a></li>
-                    <li><a href="movies.php">Управление фильмами</a></li>
-                    <li><a href="directors.php">Управление режиссерами</a></li>
-                    <li><a href="genres.php" class="active">Управление жанрами</a></li>
+                    <li><a href="index.php">🏠 Главная</a></li>
+                    <li><a href="movies.php">🎬 Фильмы</a></li>
+                    <li><a href="directors.php">🎭 Режиссеры</a></li>
+                    <li><a href="genres.php" class="active">🎪 Жанры</a></li>
                 </ul>
             </nav>
         </div>
@@ -298,5 +307,24 @@ $pageTitle = "Управление жанрами - Админ-панель";
         margin-bottom: 2rem;
     }
     </style>
+    
+    <script src="confirmation.js"></script>
+    <script>
+    function toggleMobileMenu() {
+        const sidebar = document.getElementById('mobileSidebar');
+        sidebar.classList.toggle('mobile-open');
+        document.body.style.overflow = sidebar.classList.contains('mobile-open') ? 'hidden' : '';
+    }
+    
+    document.querySelectorAll('.admin-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('mobileSidebar');
+                sidebar.classList.remove('mobile-open');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    </script>
 </body>
 </html>

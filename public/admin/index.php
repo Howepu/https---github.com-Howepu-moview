@@ -33,31 +33,40 @@ $current_user = getCurrentUser();
 <body>
     <div class="admin-header">
         <div class="admin-logo">
-            <h1>Админ-панель MoviePortal</h1>
+            <h1>MoviePortal</h1>
+        </div>
+        <div class="menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
         <div class="admin-nav">
             <span class="admin-user">
-                Добро пожаловать, <?= htmlspecialchars($current_user['username']) ?>! 
+                <?= htmlspecialchars($current_user['username']) ?> 
                 <small>(<?= htmlspecialchars($current_user['role']) ?>)</small>
             </span>
-            <a href="../main.php" class="btn btn-secondary">Вернуться на сайт</a>
+            <a href="../main.php" class="btn btn-secondary">На сайт</a>
             <a href="?action=logout" class="btn btn-danger">Выйти</a>
         </div>
     </div>
 
     <div class="admin-container">
-        <div class="admin-sidebar">
+        <div class="admin-sidebar" id="mobileSidebar">
+            <div class="mobile-menu-header">
+                <h3 style="margin: 0; color: #667eea;">Меню</h3>
+                <button class="mobile-menu-close" onclick="toggleMobileMenu()">✕</button>
+            </div>
             <nav class="admin-menu">
                 <ul>
-                    <li><a href="index.php" class="active">Главная</a></li>
+                    <li><a href="index.php" class="active">🏠 Главная</a></li>
                     <?php if ($current_user['role'] === 'admin'): ?>
-                    <li><a href="movies.php">Управление фильмами</a></li>
-                    <li><a href="directors.php">Управление режиссерами</a></li>
-                    <li><a href="genres.php">Управление жанрами</a></li>
+                    <li><a href="movies.php">🎬 Фильмы</a></li>
+                    <li><a href="directors.php">🎭 Режиссеры</a></li>
+                    <li><a href="genres.php">🎪 Жанры</a></li>
                     <?php else: ?>
-                    <li><span class="disabled-menu">Управление фильмами (только для админов)</span></li>
-                    <li><span class="disabled-menu">Управление режиссерами (только для админов)</span></li>
-                    <li><span class="disabled-menu">Управление жанрами (только для админов)</span></li>
+                    <li><span class="disabled-menu">🎬 Фильмы (только админ)</span></li>
+                    <li><span class="disabled-menu">🎭 Режиссеры (только админ)</span></li>
+                    <li><span class="disabled-menu">🎪 Жанры (только админ)</span></li>
                     <?php endif; ?>
                 </ul>
             </nav>
@@ -155,5 +164,22 @@ $current_user = getCurrentUser();
             </div>
         </div>
     </div>
+
+    <script>
+    function toggleMobileMenu() {
+        const sidebar = document.getElementById('mobileSidebar');
+        sidebar.classList.toggle('mobile-open');
+        document.body.style.overflow = sidebar.classList.contains('mobile-open') ? 'hidden' : '';
+    }
+    
+    // Закрывать меню при клике на ссылку
+    document.querySelectorAll('.admin-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                toggleMobileMenu();
+            }
+        });
+    });
+    </script>
 </body>
 </html>
