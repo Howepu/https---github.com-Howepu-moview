@@ -1583,9 +1583,12 @@ textarea.form-control {
     
     .table-actions .btn {
         flex: 1;
-        padding: 0.6rem 1rem;
-        font-size: 0.85rem;
-        white-space: nowrap;
+        padding: 0.6rem 0.5rem;
+        font-size: 0.8rem;
+        white-space: normal;
+        word-wrap: break-word;
+        min-width: 0;
+        overflow-wrap: break-word;
     }
     
     /* Модальные окна на мобильных */

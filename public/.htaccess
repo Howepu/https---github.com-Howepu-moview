@@ -38,7 +38,41 @@
 # Настройка редиректов и обработки ошибок
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
     
     # Редирект с index.php на main.php
     RewriteRule ^index\.php$ main.php [R=301,L]
+    
+    # Семантические URI для страниц
+    
+    # Главная страница: / → main.php
+    RewriteRule ^$ main.php [L]
+    
+    # Страница фильма: /film/123.html → film_page.php?id=123
+    RewriteRule ^film/([0-9]+)\.html$ film_page.php?id=$1 [L,QSA]
+    
+    # Страница жанра: /genre/5.html → films_by_genres.php?genre_id=5
+    RewriteRule ^genre/([0-9]+)\.html$ films_by_genres.php?genre_id=$1 [L,QSA]
+    
+    # Страница режиссёра: /director/10.html → films_by_directors.php?director_id=10
+    RewriteRule ^director/([0-9]+)\.html$ films_by_directors.php?director_id=$1 [L,QSA]
+    
+    # Список всех фильмов: /films.html → films.php
+    RewriteRule ^films\.html$ films.php [L,QSA]
+    
+    # Список всех жанров: /genres.html → genres.php
+    RewriteRule ^genres\.html$ genres.php [L,QSA]
+    
+    # Список всех режиссёров: /directors.html → directors.php
+    RewriteRule ^directors\.html$ directors.php [L,QSA]
+    
+    # Поиск: /search.html → search.php
+    RewriteRule ^search\.html$ search.php [L,QSA]
+    
+    # Помощь: /help.html → help.php
+    RewriteRule ^help\.html$ help.php [L,QSA]
+    
+    # Обработка 404 ошибок
+    ErrorDocument 404 /errors/404.php
+    ErrorDocument 403 /errors/403.php
 </IfModule>
