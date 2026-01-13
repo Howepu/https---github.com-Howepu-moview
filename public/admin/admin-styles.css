@@ -1531,45 +1531,42 @@ textarea.form-control {
     }
     
     .admin-table td {
-        display: block;
+        display: flex;
+        flex-direction: column;
         text-align: left;
         border: none;
-        padding: 0.5rem 0;
-        position: relative;
-        padding-left: 50%;
+        padding: 0.75rem 0;
+        gap: 0.25rem;
     }
     
     .admin-table td::before {
         content: attr(data-label);
-        position: absolute;
-        left: 0;
-        width: 45%;
-        padding-left: 0;
         font-weight: 600;
-        color: #495057;
+        color: #6c757d;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     
     .admin-table td:first-child {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         font-weight: 700;
         color: #667eea;
-        padding-left: 0;
         border-bottom: 2px solid #e9ecef;
         padding-bottom: 0.75rem;
         margin-bottom: 0.5rem;
     }
     
     .admin-table td:first-child::before {
-        content: 'ID: ';
-        position: static;
+        font-size: 0.75rem;
         color: #6c757d;
-        font-weight: 400;
-        font-size: 0.9rem;
+        font-weight: 500;
+        text-transform: uppercase;
     }
     
     .table-actions {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         gap: 0.5rem;
         margin-top: 1rem;
         padding-top: 0.75rem;
@@ -1582,13 +1579,11 @@ textarea.form-control {
     }
     
     .table-actions .btn {
-        flex: 1;
-        padding: 0.6rem 0.5rem;
-        font-size: 0.8rem;
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 0.9rem;
         white-space: normal;
         word-wrap: break-word;
-        min-width: 0;
-        overflow-wrap: break-word;
     }
     
     /* Модальные окна на мобильных */
