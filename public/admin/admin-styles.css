@@ -523,46 +523,49 @@ textarea.form-control {
 @media (max-width: 768px) {
     .admin-header {
         padding: 1rem;
-        flex-wrap: wrap;
-        gap: 0.5rem;
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
     }
     
     .admin-logo h1 {
         font-size: 1.5rem;
+        width: 100%;
     }
     
     .admin-nav {
         order: 3;
         width: 100%;
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 0.5rem;
-        flex-wrap: wrap;
-        margin-top: 0.5rem;
     }
     
     .admin-user {
+        order: 2;
         width: 100%;
         margin: 0;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         text-align: center;
+        padding: 0.5rem 0;
+        border-top: 1px solid rgba(255,255,255,0.2);
+        border-bottom: 1px solid rgba(255,255,255,0.2);
     }
     
     .admin-nav .btn {
-        flex: 1;
-        padding: 0.6rem 1rem;
-        font-size: 0.85rem;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.8rem;
         text-align: center;
+        white-space: nowrap;
     }
     
     .menu-toggle {
-        display: flex;
-        order: 2;
-        margin-left: auto;
+        display: none;
     }
     
     .admin-container {
         flex-direction: column;
-        padding: 0.5rem;
+        padding: 0.75rem;
         gap: 1rem;
     }
     
@@ -1506,30 +1509,43 @@ textarea.form-control {
 
 @media (max-width: 768px) {
     /* Скрываем заголовки и показываем карточки на мобильных */
+    .table-responsive {
+        overflow-x: visible !important;
+        margin: 0 !important;
+    }
+    
+    .table-responsive::before,
+    .table-responsive::after {
+        display: none !important;
+    }
+    
     .admin-table {
         display: block !important;
-        border: none;
-        box-shadow: none;
-        border-radius: 0;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        min-width: auto !important;
+        width: 100% !important;
     }
     
     /* Карточки для мобильных устройств */
     .admin-table tbody {
         display: block !important;
+        width: 100% !important;
     }
     
     .admin-table tr {
         display: block !important;
-        background: white;
-        margin-bottom: 1rem;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        padding: 1rem;
-        border: 1px solid #e9ecef;
+        background: #fff !important;
+        margin-bottom: 1rem !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+        padding: 1.25rem !important;
+        border: 1px solid #e9ecef !important;
     }
     
     .admin-table tr:hover {
-        background: white;
+        background: #fff !important;
     }
     
     .admin-table thead {
@@ -1540,20 +1556,23 @@ textarea.form-control {
         display: block !important;
         text-align: left !important;
         border: none !important;
-        padding: 0.75rem 0 !important;
+        padding: 0.5rem 0 !important;
         white-space: normal !important;
         word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        font-size: 1rem !important;
+        line-height: 1.4 !important;
     }
     
     .admin-table td::before {
         content: attr(data-label);
-        display: block;
-        font-weight: 600;
-        color: #6c757d;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 0.25rem;
+        display: block !important;
+        font-weight: 700 !important;
+        color: #667eea !important;
+        font-size: 0.7rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        margin-bottom: 0.35rem !important;
     }
     
     .admin-table td:first-child {
