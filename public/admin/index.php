@@ -28,7 +28,7 @@ $current_user = getCurrentUser();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($pageTitle) ?></title>
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="stylesheet" href="admin-styles.css">
+    <link rel="stylesheet" href="admin-styles.css?v=<?= time() ?>">
 </head>
 <body>
     <div class="admin-header">
