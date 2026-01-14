@@ -40,7 +40,9 @@
     RewriteEngine On
     RewriteBase /
     
-    # Принудительный HTTPS
+    # Принудительный HTTPS (совместимо с Render/прокси)
+    # Проверяем X-Forwarded-Proto для работы за load balancer
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     
